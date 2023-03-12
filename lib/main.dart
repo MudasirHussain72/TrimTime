@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
     return MaterialApp(
-      title: 'HiveMind',
+      title: 'King Barber',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: AppColors.primaryMaterialColor,

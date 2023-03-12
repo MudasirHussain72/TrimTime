@@ -1,3 +1,4 @@
+import 'package:barbar_booking_app/res/color.dart';
 import 'package:barbar_booking_app/res/components/input_text_field.dart';
 import 'package:flutter/material.dart';
 
@@ -31,9 +32,9 @@ void showOTPDialog({
       ),
       actions: <Widget>[
         TextButton(
-          child: const Text("Cancel"),
-          onPressed: () => Navigator.pop(context),
-        ),
+            child: const Text("Cancel",
+                style: TextStyle(color: AppColors.hintColor)),
+            onPressed: () => Navigator.pop(context)),
         TextButton(
           onPressed: onPressed,
           child: const Text("Done"),

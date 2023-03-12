@@ -1,6 +1,7 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
 import 'package:barbar_booking_app/res/color.dart';
+import 'package:barbar_booking_app/view/dashboard/profile/profile_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -36,10 +37,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           body: Center(
         child: Text('user list'),
       )),
-      const Scaffold(
-          body: Center(
-        child: Text('profile screen'),
-      )),
+      const ProfileScreen(),
     ];
   }
 
