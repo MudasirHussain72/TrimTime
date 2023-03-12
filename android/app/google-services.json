@@ -1,0 +1,118 @@
+{
+  "project_info": {
+    "project_number": "1066123805890",
+    "project_id": "parlour-app-1e3b3",
+    "storage_bucket": "parlour-app-1e3b3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066123805890:android:dae298f898d27203d7275b",
+        "android_client_info": {
+          "package_name": "com.example.barbar_booking_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1066123805890-48jgrl1n7tirugvfnm19vhvfqaiseml1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtW9oDI2R71-_q_oBH-MNtb2oTC57kUe4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1066123805890-48jgrl1n7tirugvfnm19vhvfqaiseml1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1066123805890-ivodm7pc2h423q6mfe0ki1e3qll6odm2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.parlourBarber"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066123805890:android:0c1cc9712ccd886cd7275b",
+        "android_client_info": {
+          "package_name": "com.example.barber_parlor_app_fyp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1066123805890-48jgrl1n7tirugvfnm19vhvfqaiseml1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtW9oDI2R71-_q_oBH-MNtb2oTC57kUe4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1066123805890-48jgrl1n7tirugvfnm19vhvfqaiseml1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1066123805890-ivodm7pc2h423q6mfe0ki1e3qll6odm2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.parlourBarber"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066123805890:android:4b301824fd0eef4fd7275b",
+        "android_client_info": {
+          "package_name": "com.example.parlour_barber"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1066123805890-48jgrl1n7tirugvfnm19vhvfqaiseml1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtW9oDI2R71-_q_oBH-MNtb2oTC57kUe4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1066123805890-48jgrl1n7tirugvfnm19vhvfqaiseml1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1066123805890-ivodm7pc2h423q6mfe0ki1e3qll6odm2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.parlourBarber"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
