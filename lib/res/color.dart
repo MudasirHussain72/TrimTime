@@ -18,7 +18,7 @@ class AppColors {
   static const Color hintColor = Color.fromRGBO(114, 114, 114, 1);
 
   static const Color textFieldDefaultFocus = Color(0xfff5f5f6);
-  static const Color textFieldDefaultBorderColor = Color(0xfffDFDFE1);
+  static const Color textFieldDefaultBorderColor = Color(0xffDFDFE1);
   static const Color textFieldFocusBorderColor = Color.fromRGBO(19, 103, 33, 1);
 
   static const Color alertColor = Color(0xffff0222);
@@ -34,7 +34,7 @@ class AppColors {
   //otp screen changing color
   static const Color otpBorderColor = Color.fromRGBO(34, 34, 34, 0.1);
   static const Color otpFocusColor = Color.fromRGBO(19, 103, 33, 1);
-  static const Color otpBackgroundColor = Color(0xffff5f5f6);
+  static const Color otpBackgroundColor = Color(0xfff5f5f6);
   static const Color otpHintColor = Color.fromRGBO(170, 170, 170, 1);
 
   static const MaterialColor primaryMaterialColor = MaterialColor(

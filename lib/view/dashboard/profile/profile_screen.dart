@@ -4,8 +4,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:barbar_booking_app/res/color.dart';
 import 'package:barbar_booking_app/utils/routes/route_name.dart';
-import 'package:barbar_booking_app/view/login/login_screen.dart';
-import 'package:barbar_booking_app/view/first_screen/first_screen.dart';
+import 'package:barbar_booking_app/view/choose_role/choose_role_screen.dart';
 import 'package:barbar_booking_app/view_model/profile/profile_controller.dart';
 import 'package:barbar_booking_app/view_model/services/session_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -172,8 +171,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               .pushNewScreenWithRouteSettings(
                                             context,
                                             settings: const RouteSettings(
-                                                name:
-                                                    RouteName.firstScreenView),
+                                                name: RouteName.chooseRoleView),
                                             screen: const FirstScreen(),
                                             withNavBar: false,
                                             pageTransitionAnimation:
@@ -187,25 +185,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         title: '',
                                         value: 'Logout',
                                         iconData: Icons.logout))
-                                // InkWell(
-                                //   onTap: () {
-                                //     Navigator.push(
-                                //         context,
-                                //         MaterialPageRoute(
-                                //           builder: (context) =>
-                                //               const getCurrentLocationScreen(),
-                                //         ));
-                                //   },
-                                //   child: ReusableRow(
-                                //       title: 'My Location',
-                                //       value: document['userLocationLat'] ==
-                                //                   null ||
-                                //               document['userLocationLat'] == ''
-                                //           ? 'Edit'
-                                //           : document['userLocationLat']
-                                //               .toString(),
-                                //       iconData: Icons.location_on),
-                                // ),
                               ],
                             );
                           } else {

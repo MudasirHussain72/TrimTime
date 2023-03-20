@@ -3,7 +3,7 @@
 import 'package:barbar_booking_app/utils/routes/route_name.dart';
 import 'package:barbar_booking_app/view/dashboard/dashboard_screen.dart';
 import 'package:barbar_booking_app/view/login/login_screen.dart';
-import 'package:barbar_booking_app/view/first_screen/first_screen.dart';
+import 'package:barbar_booking_app/view/choose_role/choose_role_screen.dart';  
 import 'package:barbar_booking_app/view/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -13,10 +13,12 @@ class Routes {
     switch (settings.name) {
       case RouteName.splashScreen:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
-      case RouteName.firstScreenView:
-        return MaterialPageRoute(builder: (_) => const FirstScreen());
       case RouteName.loginView:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
+      case RouteName.chooseRoleView:
+        return MaterialPageRoute(builder: (_) => const FirstScreen());
+      // case RouteName.signupView:
+      //   return MaterialPageRoute(builder: (_) =>   SignUpScreen(chooseRole: ,));
       case RouteName.dashboardView:
         return MaterialPageRoute(builder: (_) => const DashboardScreen());
 

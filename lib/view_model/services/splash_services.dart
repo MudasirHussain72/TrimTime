@@ -20,7 +20,7 @@ class SplashServices {
           const Duration(seconds: 2),
           // () => Navigator.pushReplacementNamed(context, RouteName.loginView),
           () => Navigator.pushNamedAndRemoveUntil(
-              context, RouteName.firstScreenView, (route) => false));
+              context, RouteName.loginView, (route) => false));
     }
   }
 }

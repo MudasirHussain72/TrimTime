@@ -1,5 +1,5 @@
 import 'package:barbar_booking_app/res/components/round_button.dart';
-import 'package:barbar_booking_app/utils/routes/route_name.dart';
+import 'package:barbar_booking_app/view/signup/signup_screen.dart';
 import 'package:flutter/material.dart';
 
 class FirstScreen extends StatefulWidget {
@@ -47,16 +47,39 @@ class _FirstScreenState extends State<FirstScreen> {
                     ),
                   ),
                   SizedBox(height: size.height * .03),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text("Register your account for",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.subtitle1),
+                  ),
                   RoundButton(
                       title: 'Discover Services',
                       onPress: () {
-                        Navigator.pushNamed(context, RouteName.loginView);
+                        // SignupController().setisBarber(false);
+                        // Navigator.pushNamed(context, RouteName.signupView);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SignUpScreen(
+                                    isBarberRole: false,
+                                  )),
+                        );
                       }),
                   SizedBox(height: size.height * .02),
                   RoundButton(
                     title: 'Set Up your Bussiness',
-                    onPress: () {},
+                    onPress: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SignUpScreen(
+                                  isBarberRole: true,
+                                )),
+                      );
+                    },
                   ),
+                  SizedBox(height: size.height * .01),
                 ]),
           ),
         ),
