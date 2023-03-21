@@ -27,11 +27,11 @@ class SignupController with ChangeNotifier {
     BuildContext context,
     String username,
     String email,
-    String phoneNum,
-    // String latitude,
-    // String longitude,
-    bool isBarber,
     String password,
+    String phoneNum,
+    String latitude,
+    String longitude,
+    bool isBarber,
   ) async {
     setLoading(true);
     try {

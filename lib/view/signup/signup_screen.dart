@@ -1,12 +1,18 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'package:barbar_booking_app/res/color.dart';
+import 'package:barbar_booking_app/res/components/choose_location_button.dart';
 import 'package:barbar_booking_app/res/components/input_text_field.dart';
 import 'package:barbar_booking_app/res/components/round_button.dart';
 import 'package:barbar_booking_app/utils/routes/route_name.dart';
 import 'package:barbar_booking_app/utils/utils.dart';
 import 'package:barbar_booking_app/view_model/signup/signup_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
+import 'package:http/http.dart' as http;
 
 // ignore: must_be_immutable
 class SignUpScreen extends StatefulWidget {
@@ -18,18 +24,57 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final barBerLatitude = '';
-  final barBerLongitude = '';
+  String? barBerLatitude;
+  String? barBerLongitude;
   final _formkey = GlobalKey<FormState>();
   final userNameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
-
+  final placesController = TextEditingController();
+  var uuid = Uuid();
+  String _sessionToken = '122344';
+  List<dynamic> placesList = [];
   final emailFocusNode = FocusNode();
   final userNameFocusNode = FocusNode();
   final phoneNumberFocusNode = FocusNode();
   final passwordFocusNode = FocusNode();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    placesController.addListener(() {
+      onChange();
+    });
+  }
+
+  void onChange() {
+    if (_sessionToken == null) {
+      setState(() {
+        _sessionToken = uuid.v4();
+      });
+    }
+    getSuggestion(placesController.text);
+  }
+
+  void getSuggestion(String input) async {
+    String kPLACES_API_KEY = 'AIzaSyBEHLsPAwfrJ6Snn9ar4Ad7zCE1PxG_DfM';
+    String baseURL =
+        'https://maps.googleapis.com/maps/api/place/autocomplete/json';
+    String request =
+        '$baseURL?input=$input&key=$kPLACES_API_KEY&sessiontoken=$_sessionToken';
+    var response = await http.get(Uri.parse(request));
+    var data = response.body.toString();
+
+    if (response.statusCode == 200) {
+      setState(() {
+        placesList = jsonDecode(response.body.toString())['predictions'];
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -39,6 +84,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     userNameFocusNode.dispose();
     emailFocusNode.dispose();
     passwordFocusNode.dispose();
+    placesController.dispose();
   }
 
   @override
@@ -165,11 +211,74 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                     if (widget.isBarberRole == true) ...[
-                      RoundButton(
-                        color: AppColors.lightGrayColor,
-                        title: "Choose your Location",
-                        // loading: provider.loading,
-                        onPress: () {},
+                      ChooseLocationButton(
+                        title: 'Choose Location',
+                        onPress: () {
+                          showModalBottomSheet(
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(25.0))),
+                              backgroundColor: AppColors.whiteColor,
+                              context: context,
+                              isScrollControlled: true,
+                              builder: (context) => SizedBox(
+                                    height: size.height / 1.5,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          bottom: MediaQuery.of(context)
+                                              .viewInsets
+                                              .bottom),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 12.0),
+                                            child: Text('Enter your address',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .headline5),
+                                          ),
+                                          const SizedBox(
+                                            height: 8.0,
+                                          ),
+                                          TextField(
+                                            decoration: const InputDecoration(
+                                                hintText: 'Search address'),
+                                            autofocus: true,
+                                            controller: placesController,
+                                          ),
+                                          Expanded(
+                                              child: ListView.builder(
+                                            itemCount: placesList.length,
+                                            itemBuilder: (context, index) {
+                                              return ListTile(
+                                                onTap: () async {
+                                                  List<Location> locations =
+                                                      await locationFromAddress(
+                                                          placesList[index]
+                                                              ['description']);
+                                                  log(locations.last.latitude
+                                                      .toString());
+                                                  log(locations.last.longitude
+                                                      .toString());
+                                                  placesController.text =
+                                                      placesList[index]
+                                                          ['description'];
+                                                },
+                                                title: Text(placesList[index]
+                                                    ['description']),
+                                              );
+                                            },
+                                          )),
+                                          const SizedBox(height: 10),
+                                        ],
+                                      ),
+                                    ),
+                                  ));
+                        },
                       )
                     ],
                     SizedBox(height: size.height * .04),
@@ -180,18 +289,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             title: "SignUp",
                             loading: provider.loading,
                             onPress: () {
-                              // if (SignupController().latitude == '') {
-                              //   Utils.toastMessage('Choose your Location');
-                              // }
-                              //  else
-                              if (_formkey.currentState!.validate()) {
+                              if (widget.isBarberRole == true &&
+                                  barBerLatitude!.isNotEmpty &&
+                                  _formkey.currentState!.validate()) {
                                 provider.signUpUser(
-                                    context,
-                                    userNameController.text.trim().toString(),
-                                    emailController.text.trim().toString(),
-                                    phoneController.text.trim().toString(),
-                                    widget.isBarberRole,
-                                    passwordController.text.trim().toString());
+                                  context,
+                                  userNameController.text.trim().toString(),
+                                  emailController.text.trim().toString(),
+                                  passwordController.text.trim().toString(),
+                                  phoneController.text.trim().toString(),
+                                  barBerLatitude!,
+                                  barBerLongitude!,
+                                  widget.isBarberRole,
+                                );
+                              } else if (_formkey.currentState!.validate() &&
+                                  widget.isBarberRole == false) {
+                                provider.signUpUser(
+                                  context,
+                                  userNameController.text.trim().toString(),
+                                  emailController.text.trim().toString(),
+                                  passwordController.text.trim().toString(),
+                                  phoneController.text.trim().toString(),
+                                  // barBerLatitude!,
+                                  // barBerLongitude!,
+                                  '000000',
+                                  '000000',
+                                  widget.isBarberRole,
+                                );
+                              } else {
+                                Utils.toastMessage('Choose your Location');
                               }
                             },
                           ),
@@ -227,3 +353,4 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 }
+//   AIzaSyBEHLsPAwfrJ6Snn9ar4Ad7zCE1PxG_DfM

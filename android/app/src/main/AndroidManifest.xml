@@ -4,6 +4,7 @@
         android:label="King Barber"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyBEHLsPAwfrJ6Snn9ar4Ad7zCE1PxG_DfM"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

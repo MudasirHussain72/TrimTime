@@ -1,11 +1,9 @@
 // ignore_for_file: unrelated_type_equality_checks, curly_braces_in_flow_control_structures
 
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:barbar_booking_app/res/color.dart';
 import 'package:barbar_booking_app/utils/routes/route_name.dart';
-import 'package:barbar_booking_app/view/choose_role/choose_role_screen.dart';
 import 'package:barbar_booking_app/view/login/login_screen.dart';
 import 'package:barbar_booking_app/view_model/profile/profile_controller.dart';
 import 'package:barbar_booking_app/view_model/services/session_manager.dart';

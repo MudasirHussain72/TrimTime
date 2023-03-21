@@ -1,6 +1,6 @@
 class UserModel {
   String? uid;
-  String? city;
+  String? address;
   String? phone;
   String? latitude;
   String? onlineStatus;
@@ -12,7 +12,7 @@ class UserModel {
 
   UserModel(
       {this.uid,
-      this.city,
+      this.address,
       this.phone,
       this.latitude,
       this.onlineStatus,
@@ -24,7 +24,7 @@ class UserModel {
 
   UserModel.fromJson(Map<String, dynamic> json) {
     uid = json['uid'] ?? '';
-    city = json['city'] ?? '';
+    address = json['address'] ?? '';
     phone = json['phone'] ?? '';
     latitude = json['latitude'] ?? '';
     onlineStatus = json['onlineStatus'] ?? '';
@@ -36,17 +36,17 @@ class UserModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['uid'] = this.uid;
-    data['city'] = this.city;
-    data['phone'] = this.phone;
-    data['latitude'] = this.latitude;
-    data['onlineStatus'] = this.onlineStatus;
-    data['profileImage'] = this.profileImage;
-    data['userName'] = this.userName;
-    data['email'] = this.email;
-    data['longitude'] = this.longitude;
-    data['isBarber'] = this.isBarber;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['uid'] = uid;
+    data['address'] = address;
+    data['phone'] = phone;
+    data['latitude'] = latitude;
+    data['onlineStatus'] = onlineStatus;
+    data['profileImage'] = profileImage;
+    data['userName'] = userName;
+    data['email'] = email;
+    data['longitude'] = longitude;
+    data['isBarber'] = isBarber;
     return data;
   }
 }
