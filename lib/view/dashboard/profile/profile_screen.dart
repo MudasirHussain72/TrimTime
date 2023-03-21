@@ -1,10 +1,12 @@
 // ignore_for_file: unrelated_type_equality_checks, curly_braces_in_flow_control_structures
 
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:barbar_booking_app/res/color.dart';
 import 'package:barbar_booking_app/utils/routes/route_name.dart';
 import 'package:barbar_booking_app/view/choose_role/choose_role_screen.dart';
+import 'package:barbar_booking_app/view/login/login_screen.dart';
 import 'package:barbar_booking_app/view_model/profile/profile_controller.dart';
 import 'package:barbar_booking_app/view_model/services/session_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -37,166 +39,185 @@ class _ProfileScreenState extends State<ProfileScreen> {
               return SafeArea(
                 child: SingleChildScrollView(
                   child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 10),
-                      child: StreamBuilder(
-                        stream: firestore
-                            .doc(SessionController().userId.toString())
-                            .snapshots(),
-                        builder: (context, AsyncSnapshot snapshot) {
-                          if (!snapshot.hasData) {
-                            return const Center(
-                                child: CircularProgressIndicator());
-                          } else if (snapshot.hasData) {
-                            var document = snapshot.data;
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                SizedBox(height: size.height * .02),
-                                Stack(
-                                  alignment: Alignment.bottomCenter,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: size.height * .01),
-                                      child: Center(
-                                        child: Container(
-                                          height: size.width / 4,
-                                          width: size.width / 4,
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              border: Border.all(
-                                                  color: AppColors.primaryColor,
-                                                  width: 2)),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(100),
-                                            child: provider.image == null
-                                                ? document['profileImage']
-                                                            .toString ==
-                                                        ""
-                                                    ? const Icon(Icons.person)
-                                                    : Image(
-                                                        fit: BoxFit.cover,
-                                                        image: NetworkImage(
-                                                            document![
-                                                                    'profileImage']
-                                                                .toString()),
-                                                        loadingBuilder: (context,
-                                                            child,
-                                                            loadingProgress) {
-                                                          if (loadingProgress ==
-                                                              null)
-                                                            return child;
-                                                          return const Center(
-                                                              child:
-                                                                  CircularProgressIndicator());
-                                                        },
-                                                        errorBuilder: (context,
-                                                            object, stack) {
-                                                          return const Icon(
-                                                            Icons.error_outline,
-                                                            color: AppColors
-                                                                .alertColor,
-                                                          );
-                                                        })
-                                                : Stack(
-                                                    children: [
-                                                      Image.file(File(provider
-                                                              .image!.path)
-                                                          .absolute),
-                                                      const Center(
-                                                        child:
-                                                            CircularProgressIndicator(),
-                                                      )
-                                                    ],
-                                                  ),
-                                          ),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    // child: StreamBuilder(
+                    //   stream: FirebaseFirestore.instance
+                    //       .collection('users')
+                    //       .snapshots(),
+                    //   builder: (context, snapshot) {
+                    //     final list = [];
+                    //     if (snapshot.hasData) {
+                    //       final data = snapshot.data?.docs;
+                    //       for (var i in data!) {
+                    //         log('${jsonEncode(i.data())}');
+                    //       }
+                    //     }
+                    //     return ListView.builder(
+                    //       itemCount: list.length,
+                    //       itemBuilder: (context, index) {
+                    //         return Text('data');
+                    //       },
+                    //     );
+                    //   },
+                    // ),
+                    child: StreamBuilder(
+                      stream: firestore
+                          .doc(SessionController().userId.toString())
+                          .snapshots(),
+                      builder: (context, AsyncSnapshot snapshot) {
+                        if (!snapshot.hasData) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        } else if (snapshot.hasData) {
+                          var document = snapshot.data;
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(height: size.height * .02),
+                              Stack(
+                                alignment: Alignment.bottomCenter,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: size.height * .01),
+                                    child: Center(
+                                      child: Container(
+                                        height: size.width / 4,
+                                        width: size.width / 4,
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                                color: AppColors.primaryColor,
+                                                width: 2)),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                          child: provider.image == null
+                                              ? document['profileImage']
+                                                          .toString ==
+                                                      ""
+                                                  ? const Icon(Icons.person)
+                                                  : Image(
+                                                      fit: BoxFit.cover,
+                                                      image: NetworkImage(
+                                                          document![
+                                                                  'profileImage']
+                                                              .toString()),
+                                                      loadingBuilder: (context,
+                                                          child,
+                                                          loadingProgress) {
+                                                        if (loadingProgress ==
+                                                            null) return child;
+                                                        return const Center(
+                                                            child:
+                                                                CircularProgressIndicator());
+                                                      },
+                                                      errorBuilder: (context,
+                                                          object, stack) {
+                                                        return const Icon(
+                                                          Icons.error_outline,
+                                                          color: AppColors
+                                                              .alertColor,
+                                                        );
+                                                      })
+                                              : Stack(
+                                                  children: [
+                                                    Image.file(File(provider
+                                                            .image!.path)
+                                                        .absolute),
+                                                    const Center(
+                                                      child:
+                                                          CircularProgressIndicator(),
+                                                    )
+                                                  ],
+                                                ),
                                         ),
                                       ),
                                     ),
-                                    InkWell(
-                                      onTap: () {
-                                        log('clicked');
-                                        provider.pickImage(context);
-                                      },
-                                      child: CircleAvatar(
-                                        radius: size.width * .04,
-                                        backgroundColor:
-                                            AppColors.primaryIconColor,
-                                        child: const Icon(Icons.add,
-                                            color: AppColors.whiteColor),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    ProfileController()
-                                        .updateUserInfoDialogAlert(context,
-                                            document['userName'], 'userName');
-                                  },
-                                  child: ReusableRow(
-                                      title: 'Name',
-                                      value: document['userName'] == ''
-                                          ? 'xxx-xxx-xxx'
-                                          : document['userName'],
-                                      iconData: Icons.person),
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    ProfileController()
-                                        .updateUserInfoDialogAlert(context,
-                                            document['email'], 'email');
-                                  },
-                                  child: ReusableRow(
-                                      title: '',
-                                      value: document['email'] == ''
-                                          ? 'xxx-xxx-xxx'
-                                          : document['email'],
-                                      iconData: Icons.alternate_email),
-                                ),
-                                ReusableRow(
-                                    title: 'Phone',
-                                    value: document['phone'] ?? 'xxx-xxx-xxx',
-                                    iconData: Icons.phone_outlined),
-                                InkWell(
+                                  ),
+                                  InkWell(
                                     onTap: () {
-                                      FirebaseAuth auth = FirebaseAuth.instance;
-                                      auth.signOut().then(
-                                        (value) {
-                                          SessionController().userId = '';
-                                          PersistentNavBarNavigator
-                                              .pushNewScreenWithRouteSettings(
-                                            context,
-                                            settings: const RouteSettings(
-                                                name: RouteName.chooseRoleView),
-                                            screen: const FirstScreen(),
-                                            withNavBar: false,
-                                            pageTransitionAnimation:
-                                                PageTransitionAnimation
-                                                    .cupertino,
-                                          );
-                                        },
-                                      );
+                                      log('clicked');
+                                      provider.pickImage(context);
                                     },
-                                    child: const ReusableRow(
-                                        title: '',
-                                        value: 'Logout',
-                                        iconData: Icons.logout))
-                              ],
-                            );
-                          } else {
-                            return Center(
-                              child: Text(
-                                'Something went wrong',
-                                style: Theme.of(context).textTheme.subtitle1,
+                                    child: CircleAvatar(
+                                      radius: size.width * .04,
+                                      backgroundColor:
+                                          AppColors.primaryIconColor,
+                                      child: const Icon(Icons.add,
+                                          color: AppColors.whiteColor),
+                                    ),
+                                  )
+                                ],
                               ),
-                            );
-                          }
-                        },
-                      )),
+                              InkWell(
+                                onTap: () {
+                                  ProfileController().updateUserInfoDialogAlert(
+                                      context,
+                                      document['userName'],
+                                      'userName');
+                                },
+                                child: ReusableRow(
+                                    title: 'Name',
+                                    value: document['userName'] == ''
+                                        ? 'xxx-xxx-xxx'
+                                        : document['userName'],
+                                    iconData: Icons.person),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  ProfileController().updateUserInfoDialogAlert(
+                                      context, document['email'], 'email');
+                                },
+                                child: ReusableRow(
+                                    title: '',
+                                    value: document['email'] == ''
+                                        ? 'xxx-xxx-xxx'
+                                        : document['email'],
+                                    iconData: Icons.alternate_email),
+                              ),
+                              ReusableRow(
+                                  title: 'Phone',
+                                  value: document['phone'] ?? 'xxx-xxx-xxx',
+                                  iconData: Icons.phone_outlined),
+                              InkWell(
+                                  onTap: () {
+                                    FirebaseAuth auth = FirebaseAuth.instance;
+                                    auth.signOut().then(
+                                      (value) {
+                                        SessionController().userId = '';
+                                        PersistentNavBarNavigator
+                                            .pushNewScreenWithRouteSettings(
+                                          context,
+                                          settings: const RouteSettings(
+                                              name: RouteName.loginView),
+                                          screen: const LoginScreen(),
+                                          withNavBar: false,
+                                          pageTransitionAnimation:
+                                              PageTransitionAnimation.cupertino,
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: const ReusableRow(
+                                      title: '',
+                                      value: 'Logout',
+                                      iconData: Icons.logout))
+                            ],
+                          );
+                        } else {
+                          return Center(
+                            child: Text(
+                              'Something went wrong',
+                              style: Theme.of(context).textTheme.subtitle1,
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
                 ),
               );
             },

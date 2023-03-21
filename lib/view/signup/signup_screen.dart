@@ -18,12 +18,17 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final barBerLatitude = '';
+  final barBerLongitude = '';
   final _formkey = GlobalKey<FormState>();
   final userNameController = TextEditingController();
   final emailController = TextEditingController();
+  final phoneController = TextEditingController();
   final passwordController = TextEditingController();
+
   final emailFocusNode = FocusNode();
   final userNameFocusNode = FocusNode();
+  final phoneNumberFocusNode = FocusNode();
   final passwordFocusNode = FocusNode();
   @override
   void dispose() {
@@ -88,8 +93,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             myController: emailController,
                             focusNode: emailFocusNode,
                             onFieldSubmittedValue: (newValue) {
-                              Utils.fieldFocus(
-                                  context, emailFocusNode, passwordFocusNode);
+                              Utils.fieldFocus(context, emailFocusNode,
+                                  phoneNumberFocusNode);
                             },
                             keyBoardType: TextInputType.emailAddress,
                             hint: "Email",
@@ -120,9 +125,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   child: Stack(
                                     children: [
                                       InternationalPhoneNumberInput(
+                                        focusNode: phoneNumberFocusNode,
+                                        onFieldSubmitted: (value) {
+                                          Utils.fieldFocus(
+                                              context,
+                                              phoneNumberFocusNode,
+                                              passwordFocusNode);
+                                        },
                                         onInputChanged: (value) {
                                           setState(() {
-                                            // phoneController.text = value.phoneNumber.toString();
+                                            phoneController.text =
+                                                value.phoneNumber.toString();
                                           });
                                         },
                                         formatInput: false,
@@ -159,9 +172,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         onPress: () {},
                       )
                     ],
-                    // SizedBox(height: size.height * .01),
                     SizedBox(height: size.height * .04),
-
                     ChangeNotifierProvider(
                         create: (context) => SignupController(),
                         child: Consumer<SignupController>(
@@ -169,18 +180,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             title: "SignUp",
                             loading: provider.loading,
                             onPress: () {
+                              // if (SignupController().latitude == '') {
+                              //   Utils.toastMessage('Choose your Location');
+                              // }
+                              //  else
                               if (_formkey.currentState!.validate()) {
-                                // provider.signup(
-                                // context,
-                                // userNameController.text.trim().toString(),
-                                // emailController.text.trim().toString(),
-                                // passwordController.text.trim().toString());
-                                //
-                                // provider.signUpUser(
-                                //     context,
-                                //     userNameController.text.trim().toString(),
-                                //     emailController.text.trim().toString(),
-                                //     passwordController.text.trim().toString());
+                                provider.signUpUser(
+                                    context,
+                                    userNameController.text.trim().toString(),
+                                    emailController.text.trim().toString(),
+                                    phoneController.text.trim().toString(),
+                                    widget.isBarberRole,
+                                    passwordController.text.trim().toString());
                               }
                             },
                           ),
