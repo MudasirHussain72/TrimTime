@@ -164,18 +164,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         : document['userName'],
                                     iconData: Icons.person),
                               ),
-                              InkWell(
-                                onTap: () {
-                                  ProfileController().updateUserInfoDialogAlert(
-                                      context, document['email'], 'email');
-                                },
-                                child: ReusableRow(
-                                    title: '',
-                                    value: document['email'] == ''
-                                        ? 'xxx-xxx-xxx'
-                                        : document['email'],
-                                    iconData: Icons.alternate_email),
-                              ),
+                              ReusableRow(
+                                  title: '',
+                                  value: document['email'] == ''
+                                      ? 'xxx-xxx-xxx'
+                                      : document['email'],
+                                  iconData: Icons.alternate_email),
                               ReusableRow(
                                   title: 'Phone',
                                   value: document['phone'] ?? 'xxx-xxx-xxx',

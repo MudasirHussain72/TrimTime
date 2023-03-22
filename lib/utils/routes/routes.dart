@@ -1,9 +1,10 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:barbar_booking_app/utils/routes/route_name.dart';
-import 'package:barbar_booking_app/view/dashboard/dashboard_screen.dart';
+import 'package:barbar_booking_app/view/barber_dashboard/dashboard_screen.dart';
+import 'package:barbar_booking_app/view/forgot_password/forgot_password.dart';
 import 'package:barbar_booking_app/view/login/login_screen.dart';
-import 'package:barbar_booking_app/view/choose_role/choose_role_screen.dart';  
+import 'package:barbar_booking_app/view/choose_role/choose_role_screen.dart';
 import 'package:barbar_booking_app/view/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +16,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const SplashScreen());
       case RouteName.loginView:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
+      case RouteName.forgotPasswordView:
+        return MaterialPageRoute(builder: (_) => const ForgotPasseordScreen());
       case RouteName.chooseRoleView:
         return MaterialPageRoute(builder: (_) => const FirstScreen());
       // case RouteName.signupView:

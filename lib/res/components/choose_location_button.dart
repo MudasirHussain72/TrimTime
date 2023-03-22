@@ -24,9 +24,16 @@ class ChooseLocationButton extends StatelessWidget {
             color: AppColors.whiteColor,
             border: Border.all(color: AppColors.textFieldDefaultBorderColor),
             borderRadius: const BorderRadius.all(Radius.circular(8))),
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [Text(title), const Icon(Icons.add_location)]),
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Expanded(
+            child: Text(
+              title,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          const Icon(Icons.add_location)
+        ]),
       ),
     );
   }

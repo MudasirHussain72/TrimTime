@@ -13,7 +13,7 @@ class SignupController with ChangeNotifier {
   //for getting loaction
   final latitude = '';
   final longitude = '';
-  
+
   // status lodaing
   bool _loading = false;
   bool get loading => _loading;
@@ -31,6 +31,7 @@ class SignupController with ChangeNotifier {
     String phoneNum,
     String latitude,
     String longitude,
+    String barberAddress,
     bool isBarber,
   ) async {
     setLoading(true);
@@ -48,6 +49,7 @@ class SignupController with ChangeNotifier {
           longitude: longitude,
           phone: phoneNum,
           uid: value.user!.uid,
+          address: barberAddress,
         );
         SessionController().userId = value.user!.uid.toString();
         db.collection('users').doc(user.uid).set(user.toJson());

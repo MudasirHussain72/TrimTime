@@ -1,5 +1,6 @@
-import 'dart:convert';
+import 'dart:async';
 import 'dart:developer';
+
 import 'package:barbar_booking_app/res/color.dart';
 import 'package:barbar_booking_app/res/components/choose_location_button.dart';
 import 'package:barbar_booking_app/res/components/input_text_field.dart';
@@ -7,12 +8,13 @@ import 'package:barbar_booking_app/res/components/round_button.dart';
 import 'package:barbar_booking_app/utils/routes/route_name.dart';
 import 'package:barbar_booking_app/utils/utils.dart';
 import 'package:barbar_booking_app/view_model/signup/signup_controller.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
+import 'package:flutter_geocoder/geocoder.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
-import 'package:http/http.dart' as http;
 
 // ignore: must_be_immutable
 class SignUpScreen extends StatefulWidget {
@@ -24,55 +26,71 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  String? barBerLatitude;
-  String? barBerLongitude;
+  String barberLatitude = '';
+  String barberLongitude = '';
+  String barberAddress = '';
   final _formkey = GlobalKey<FormState>();
   final userNameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
-  final placesController = TextEditingController();
-  var uuid = Uuid();
-  String _sessionToken = '122344';
-  List<dynamic> placesList = [];
   final emailFocusNode = FocusNode();
   final userNameFocusNode = FocusNode();
   final phoneNumberFocusNode = FocusNode();
   final passwordFocusNode = FocusNode();
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    placesController.addListener(() {
-      onChange();
+  final Completer<GoogleMapController> _controller = Completer();
+  static const CameraPosition _kGooglePlex = CameraPosition(
+    target: LatLng(24.8607, 67.0011),
+    zoom: 14.4746,
+  );
+  final List<Marker> _markers = <Marker>[
+    const Marker(
+        markerId: MarkerId('1'),
+        position: LatLng(24.8607, 67.0011),
+        infoWindow: InfoWindow(title: 'The title of the marker'))
+  ];
+  loadCurrentLocation() {
+    getUserCurrentLocation().then((value) async {
+      final coordinates = await Coordinates(value.latitude, value.longitude);
+      var address =
+          await Geocoder.local.findAddressesFromCoordinates(coordinates);
+      var first = address.first;
+      barberAddress = first.addressLine.toString();
+      barberLatitude = value.latitude.toString();
+      barberLongitude = value.longitude.toString();
+      // log(first.addressLine.toString());
+      // if (kDebugMode) {
+      //   print("${value.latitude.toString()}\n ${value.longitude.toString()}");
+      // }
+
+      Utils.toastMessage('Location Added');
+      Navigator.pop(context);
+
+      _markers.add(
+        Marker(
+          markerId: const MarkerId('2'),
+          position: LatLng(value.latitude, value.longitude),
+          infoWindow: const InfoWindow(title: 'My Curent Location'),
+        ),
+      );
+
+      CameraPosition cameraPosition = CameraPosition(
+          zoom: 16, target: LatLng(value.latitude, value.longitude));
+      final GoogleMapController controller = await _controller.future;
+      controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+      setState(() {});
     });
   }
 
-  void onChange() {
-    if (_sessionToken == null) {
-      setState(() {
-        _sessionToken = uuid.v4();
-      });
-    }
-    getSuggestion(placesController.text);
-  }
-
-  void getSuggestion(String input) async {
-    String kPLACES_API_KEY = 'AIzaSyBEHLsPAwfrJ6Snn9ar4Ad7zCE1PxG_DfM';
-    String baseURL =
-        'https://maps.googleapis.com/maps/api/place/autocomplete/json';
-    String request =
-        '$baseURL?input=$input&key=$kPLACES_API_KEY&sessiontoken=$_sessionToken';
-    var response = await http.get(Uri.parse(request));
-    var data = response.body.toString();
-
-    if (response.statusCode == 200) {
-      setState(() {
-        placesList = jsonDecode(response.body.toString())['predictions'];
-      });
-    } else {
-      throw Exception('Failed to load data');
-    }
+  Future<Position> getUserCurrentLocation() async {
+    await Geolocator.requestPermission()
+        .then((value) {})
+        .onError((error, stackTrace) {
+      if (kDebugMode) {
+        print('error$error');
+      }
+    });
+    return await Geolocator.getCurrentPosition();
   }
 
   @override
@@ -84,16 +102,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
     userNameFocusNode.dispose();
     emailFocusNode.dispose();
     passwordFocusNode.dispose();
-    placesController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size * 1;
     return Scaffold(
-      // appBar: AppBar(
-      //   elevation: 0,
-      // ),
       body: SafeArea(
         child: Padding(
             padding: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
@@ -212,71 +226,57 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     if (widget.isBarberRole == true) ...[
                       ChooseLocationButton(
-                        title: 'Choose Location',
+                        // title: 'Choose Location',
+                        title: barberAddress == ''
+                            ? 'Choose Location'
+                            : barberAddress,
                         onPress: () {
                           showModalBottomSheet(
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                      top: Radius.circular(25.0))),
-                              backgroundColor: AppColors.whiteColor,
                               context: context,
                               isScrollControlled: true,
                               builder: (context) => SizedBox(
                                     height: size.height / 1.5,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          bottom: MediaQuery.of(context)
-                                              .viewInsets
-                                              .bottom),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 12.0),
-                                            child: Text('Enter your address',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headline5),
-                                          ),
-                                          const SizedBox(
-                                            height: 8.0,
-                                          ),
-                                          TextField(
-                                            decoration: const InputDecoration(
-                                                hintText: 'Search address'),
-                                            autofocus: true,
-                                            controller: placesController,
-                                          ),
-                                          Expanded(
-                                              child: ListView.builder(
-                                            itemCount: placesList.length,
-                                            itemBuilder: (context, index) {
-                                              return ListTile(
-                                                onTap: () async {
-                                                  List<Location> locations =
-                                                      await locationFromAddress(
-                                                          placesList[index]
-                                                              ['description']);
-                                                  log(locations.last.latitude
-                                                      .toString());
-                                                  log(locations.last.longitude
-                                                      .toString());
-                                                  placesController.text =
-                                                      placesList[index]
-                                                          ['description'];
-                                                },
-                                                title: Text(placesList[index]
-                                                    ['description']),
-                                              );
-                                            },
-                                          )),
-                                          const SizedBox(height: 10),
-                                        ],
-                                      ),
-                                    ),
+                                    child: StatefulBuilder(
+                                        builder: (context, setState) => Padding(
+                                              padding: EdgeInsets.only(
+                                                  bottom: MediaQuery.of(context)
+                                                      .viewInsets
+                                                      .bottom),
+                                              child: Stack(
+                                                children: [
+                                                  GoogleMap(
+                                                    initialCameraPosition:
+                                                        _kGooglePlex,
+                                                    markers: Set<Marker>.of(
+                                                        _markers),
+                                                    onMapCreated:
+                                                        (GoogleMapController
+                                                            controller) {
+                                                      _controller
+                                                          .complete(controller);
+                                                    },
+                                                  ),
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.bottomRight,
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              right: 60,
+                                                              bottom: 20),
+                                                      child:
+                                                          FloatingActionButton(
+                                                        onPressed: () {
+                                                          loadCurrentLocation();
+                                                        },
+                                                        child: const Icon(
+                                                            Icons.location_on),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            )),
                                   ));
                         },
                       )
@@ -290,7 +290,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             loading: provider.loading,
                             onPress: () {
                               if (widget.isBarberRole == true &&
-                                  barBerLatitude!.isNotEmpty &&
+                                  barberLatitude != '' &&
                                   _formkey.currentState!.validate()) {
                                 provider.signUpUser(
                                   context,
@@ -298,10 +298,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   emailController.text.trim().toString(),
                                   passwordController.text.trim().toString(),
                                   phoneController.text.trim().toString(),
-                                  barBerLatitude!,
-                                  barBerLongitude!,
+                                  barberLatitude,
+                                  barberLongitude,
+                                  barberAddress,
                                   widget.isBarberRole,
                                 );
+                                log(barberLatitude);
                               } else if (_formkey.currentState!.validate() &&
                                   widget.isBarberRole == false) {
                                 provider.signUpUser(
@@ -312,13 +314,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   phoneController.text.trim().toString(),
                                   // barBerLatitude!,
                                   // barBerLongitude!,
-                                  '000000',
-                                  '000000',
+                                  '',
+                                  '',
+                                  barberAddress,
                                   widget.isBarberRole,
                                 );
-                              } else {
-                                Utils.toastMessage('Choose your Location');
                               }
+                              // else {
+                              //   Utils.toastMessage('Choose your Location');
+                              // }
                             },
                           ),
                         )),
