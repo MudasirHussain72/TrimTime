@@ -8,17 +8,23 @@ class SplashServices {
   void isLogin(BuildContext context) {
     FirebaseAuth auth = FirebaseAuth.instance;
     final user = auth.currentUser;
-    if (user != null) {
-      SessionController().userId = user.uid.toString();
+    if (user != null || SessionController().isBarber == true) {
+      SessionController().userId = user!.uid.toString();
+      SessionController().isBarber = true;
       Timer(
           const Duration(seconds: 2),
-          // () => Navigator.pushReplacementNamed(context, RouteName.dashboardView),
           () => Navigator.pushNamedAndRemoveUntil(
-              context, RouteName.dashboardView, (route) => false));
+              context, RouteName.barberdashboardView, (route) => false));
+    } else if (user != null || SessionController().isBarber == false) {
+      SessionController().userId = user!.uid.toString();
+      SessionController().isBarber = false;
+      Timer(
+          const Duration(seconds: 2),
+          () => Navigator.pushNamedAndRemoveUntil(
+              context, RouteName.customerdashboardView, (route) => false));
     } else {
       Timer(
           const Duration(seconds: 2),
-          // () => Navigator.pushReplacementNamed(context, RouteName.loginView),
           () => Navigator.pushNamedAndRemoveUntil(
               context, RouteName.loginView, (route) => false));
     }

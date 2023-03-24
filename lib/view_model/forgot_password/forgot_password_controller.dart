@@ -16,6 +16,7 @@ class ForgotPasswordController with ChangeNotifier {
   void forgotPassword(BuildContext context, String email) async {
     setLoading(true);
     try {
+      // ignore: unused_local_variable
       final user =
           await auth.sendPasswordResetEmail(email: email).then((value) {
         setLoading(false);

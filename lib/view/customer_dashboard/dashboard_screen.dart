@@ -7,35 +7,36 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
-class BarberDashboardScreen extends StatefulWidget {
-  const BarberDashboardScreen({super.key});
+class CustomerDashboardScreen extends StatefulWidget {
+  const CustomerDashboardScreen({super.key});
 
   @override
-  State<BarberDashboardScreen> createState() => _BarberDashboardScreenState();
+  State<CustomerDashboardScreen> createState() =>
+      _CustomerDashboardScreenState();
 }
 
-class _BarberDashboardScreenState extends State<BarberDashboardScreen> {
+class _CustomerDashboardScreenState extends State<CustomerDashboardScreen> {
   final PersistentTabController _controller =
       PersistentTabController(initialIndex: 0);
   List<Widget> _buildScreen() {
     return [
       Scaffold(
           body: Center(
-        child: Text('Barber home${SessionController().isBarber}'),
+        child: Text('Customer home ${SessionController().isBarber}'),
       )),
       const Scaffold(
         body: Center(
-          child: Text('Barber search'),
+          child: Text('Customer search'),
         ),
       ),
       const Scaffold(
         body: Center(
-          child: Text("Barber add post screen"),
+          child: Text('Customer add post screen'),
         ),
       ),
       const Scaffold(
           body: Center(
-        child: Text('Barber user list'),
+        child: Text('Customer user list'),
       )),
       const ProfileScreen(),
     ];

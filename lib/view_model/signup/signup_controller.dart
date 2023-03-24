@@ -52,11 +52,18 @@ class SignupController with ChangeNotifier {
           address: barberAddress,
         );
         SessionController().userId = value.user!.uid.toString();
+        SessionController().isBarber = isBarber;
         db.collection('users').doc(user.uid).set(user.toJson());
         setLoading(false);
-        Navigator.pushNamedAndRemoveUntil(
-            context, RouteName.dashboardView, (route) => false);
-        await Utils.toastMessage("User created successfully");
+        if (isBarber == true) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, RouteName.barberdashboardView, (route) => false);
+        } else {
+          Navigator.pushNamedAndRemoveUntil(
+              context, RouteName.customerdashboardView, (route) => false);
+        }
+
+        await Utils.toastMessage("Account created successfully");
       }).onError((error, stackTrace) {
         setLoading(false);
         Utils.toastMessage(error.toString());

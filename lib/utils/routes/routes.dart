@@ -2,6 +2,7 @@
 
 import 'package:barbar_booking_app/utils/routes/route_name.dart';
 import 'package:barbar_booking_app/view/barber_dashboard/dashboard_screen.dart';
+import 'package:barbar_booking_app/view/customer_dashboard/dashboard_screen.dart';
 import 'package:barbar_booking_app/view/forgot_password/forgot_password.dart';
 import 'package:barbar_booking_app/view/login/login_screen.dart';
 import 'package:barbar_booking_app/view/choose_role/choose_role_screen.dart';
@@ -22,8 +23,11 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const FirstScreen());
       // case RouteName.signupView:
       //   return MaterialPageRoute(builder: (_) =>   SignUpScreen(chooseRole: ,));
-      case RouteName.dashboardView:
-        return MaterialPageRoute(builder: (_) => const DashboardScreen());
+      case RouteName.barberdashboardView:
+        return MaterialPageRoute(builder: (_) => const BarberDashboardScreen());
+      case RouteName.customerdashboardView:
+        return MaterialPageRoute(
+            builder: (_) => const CustomerDashboardScreen());
 
       default:
         return MaterialPageRoute(builder: (_) {

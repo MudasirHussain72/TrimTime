@@ -189,7 +189,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           screen: const LoginScreen(),
                                           withNavBar: false,
                                           pageTransitionAnimation:
-                                              PageTransitionAnimation.cupertino,
+                                              PageTransitionAnimation
+                                                  .cupertino,
                                         );
                                       },
                                     );
