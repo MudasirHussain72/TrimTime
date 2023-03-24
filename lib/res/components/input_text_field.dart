@@ -1,5 +1,5 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
- 
+
 import 'package:barbar_booking_app/res/color.dart';
 import 'package:flutter/material.dart';
 
@@ -38,15 +38,17 @@ class InputTextField extends StatelessWidget {
         onFieldSubmitted: onFieldSubmittedValue,
         validator: onValidator,
         keyboardType: keyBoardType,
-        style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 19),
+        style: Theme.of(context)
+            .textTheme
+            .bodyText2!
+            .copyWith(fontSize: 19, height: 1.3),
         decoration: InputDecoration(
           hintText: hint,
           enabled: enable,
           contentPadding: const EdgeInsets.all(15),
-          hintStyle: Theme.of(context)
-              .textTheme
-              .bodyText2!
-              .copyWith(color: AppColors.primaryTextTextColor),
+          hintStyle: Theme.of(context).textTheme.bodyText2!.copyWith(
+                color: AppColors.primaryTextTextColor,
+              ),
           border: const OutlineInputBorder(
             borderSide: BorderSide(color: AppColors.textFieldDefaultFocus),
             borderRadius: BorderRadius.all(Radius.circular(8)),

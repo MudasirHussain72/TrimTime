@@ -39,7 +39,7 @@ class SignupController with ChangeNotifier {
       // ignore: unused_local_variable
       auth
           .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) {
+          .then((value) async {
         UserModel user = UserModel(
           userName: username,
           email: value.user!.email,
@@ -56,11 +56,11 @@ class SignupController with ChangeNotifier {
         setLoading(false);
         Navigator.pushNamedAndRemoveUntil(
             context, RouteName.dashboardView, (route) => false);
+        await Utils.toastMessage("User created successfully");
       }).onError((error, stackTrace) {
         setLoading(false);
         Utils.toastMessage(error.toString());
         //
-        Utils.toastMessage("User created successfully");
         setLoading(false);
       }).onError((error, stackTrace) {
         setLoading(false);

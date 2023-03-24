@@ -29,6 +29,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String barberLatitude = '';
   String barberLongitude = '';
   String barberAddress = '';
+  String tempLatitude = '';
+  String tempLongitude = '';
+  String tempAddress = '';
   final _formkey = GlobalKey<FormState>();
   final userNameController = TextEditingController();
   final emailController = TextEditingController();
@@ -55,17 +58,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       var address =
           await Geocoder.local.findAddressesFromCoordinates(coordinates);
       var first = address.first;
-      barberAddress = first.addressLine.toString();
-      barberLatitude = value.latitude.toString();
-      barberLongitude = value.longitude.toString();
-      // log(first.addressLine.toString());
-      // if (kDebugMode) {
-      //   print("${value.latitude.toString()}\n ${value.longitude.toString()}");
-      // }
-
-      Utils.toastMessage('Location Added');
-      Navigator.pop(context);
-
+      tempAddress = first.addressLine.toString();
+      tempLatitude = value.latitude.toString();
+      tempLongitude = value.longitude.toString();
       _markers.add(
         Marker(
           markerId: const MarkerId('2'),
@@ -73,7 +68,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
           infoWindow: const InfoWindow(title: 'My Curent Location'),
         ),
       );
-
       CameraPosition cameraPosition = CameraPosition(
           zoom: 16, target: LatLng(value.latitude, value.longitude));
       final GoogleMapController controller = await _controller.future;
@@ -91,6 +85,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
       }
     });
     return await Geolocator.getCurrentPosition();
+  }
+
+  confirmLocation() async {
+    barberAddress = tempAddress;
+    barberLatitude = tempLatitude;
+    barberLongitude = tempLongitude;
+    setState(() {});
+    await Utils.toastMessage('Location Added');
+    Navigator.pop(context);
   }
 
   @override
@@ -145,7 +148,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             hint: "User Name",
                             obscureText: false,
                             onValidator: (value) {
-                              return value.isEmpty ? "enter Name" : null;
+                              return value.isEmpty ? "Enter Name" : null;
                             },
                           ),
                           SizedBox(height: size.height * .01),
@@ -160,7 +163,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             hint: "Email",
                             obscureText: false,
                             onValidator: (value) {
-                              return value.isEmpty ? "enter email" : null;
+                              return value.isEmpty ? "Enter Email" : null;
                             },
                           ),
                           SizedBox(height: size.height * .01),
@@ -199,6 +202,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           });
                                         },
                                         formatInput: false,
+                                        inputBorder: InputBorder.none,
                                         selectorConfig: const SelectorConfig(
                                             selectorType: PhoneInputSelectorType
                                                 .BOTTOM_SHEET),
@@ -218,7 +222,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             hint: "Password",
                             obscureText: true,
                             onValidator: (value) {
-                              return value.isEmpty ? "enter password" : null;
+                              return value.isEmpty ? "Enter Password" : null;
                             },
                           ),
                         ]),
@@ -226,7 +230,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     if (widget.isBarberRole == true) ...[
                       ChooseLocationButton(
-                        // title: 'Choose Location',
                         title: barberAddress == ''
                             ? 'Choose Location'
                             : barberAddress,
@@ -262,8 +265,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                     child: Padding(
                                                       padding:
                                                           const EdgeInsets.only(
-                                                              right: 60,
-                                                              bottom: 20),
+                                                              right: 10,
+                                                              bottom: 110),
                                                       child:
                                                           FloatingActionButton(
                                                         onPressed: () {
@@ -274,6 +277,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                       ),
                                                     ),
                                                   ),
+                                                  Align(
+                                                      alignment:
+                                                          Alignment.bottomRight,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                right: 60,
+                                                                left: 10,
+                                                                bottom: 10),
+                                                        child: RoundButton(
+                                                          title:
+                                                              'Confirm Location',
+                                                          onPress: () {
+                                                            confirmLocation();
+                                                          },
+                                                        ),
+                                                      )),
                                                 ],
                                               ),
                                             )),
@@ -289,6 +310,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             title: "SignUp",
                             loading: provider.loading,
                             onPress: () {
+                              if (barberLatitude == '') {
+                                Utils.toastMessage('Choose your Location');
+                              }
                               if (widget.isBarberRole == true &&
                                   barberLatitude != '' &&
                                   _formkey.currentState!.validate()) {
@@ -320,9 +344,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   widget.isBarberRole,
                                 );
                               }
-                              // else {
-                              //   Utils.toastMessage('Choose your Location');
-                              // }
                             },
                           ),
                         )),
