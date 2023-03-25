@@ -15,7 +15,8 @@ class SplashServices {
           const Duration(seconds: 2),
           () => Navigator.pushNamedAndRemoveUntil(
               context, RouteName.barberdashboardView, (route) => false));
-    } else if (user != null || SessionController().isBarber == false) {
+    }
+    if (user != null || SessionController().isBarber == false) {
       SessionController().userId = user!.uid.toString();
       SessionController().isBarber = false;
       Timer(

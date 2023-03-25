@@ -2,7 +2,7 @@
 
 import 'package:barbar_booking_app/res/color.dart';
 import 'package:barbar_booking_app/view/barber_dashboard/profile/profile_screen.dart';
-import 'package:barbar_booking_app/view_model/services/session_manager.dart';
+import 'package:barbar_booking_app/view/customer_dashboard/home/customer_home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -20,10 +20,7 @@ class _CustomerDashboardScreenState extends State<CustomerDashboardScreen> {
       PersistentTabController(initialIndex: 0);
   List<Widget> _buildScreen() {
     return [
-      Scaffold(
-          body: Center(
-        child: Text('Customer home ${SessionController().isBarber}'),
-      )),
+      const CustomerHomeScreen(),
       const Scaffold(
         body: Center(
           child: Text('Customer search'),
@@ -102,7 +99,7 @@ class _CustomerDashboardScreenState extends State<CustomerDashboardScreen> {
         curve: Curves.ease,
         duration: Duration(milliseconds: 200),
       ),
-      navBarStyle: NavBarStyle.style15,
+      navBarStyle: NavBarStyle.style12,
     );
   }
 }

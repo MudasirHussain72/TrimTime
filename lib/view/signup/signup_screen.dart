@@ -145,7 +145,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   context, userNameFocusNode, emailFocusNode);
                             },
                             keyBoardType: TextInputType.name,
-                            hint: "User Name",
+                            hint:
+                                widget.isBarberRole ? "Shop Name" : "User Name",
                             obscureText: false,
                             onValidator: (value) {
                               return value.isEmpty ? "Enter Name" : null;

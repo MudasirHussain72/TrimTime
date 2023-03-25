@@ -27,7 +27,6 @@ class LoginController with ChangeNotifier {
         SessionController().userId = value.user!.uid.toString();
         setLoading(false);
         route(context);
-        await Utils.toastMessage("User login successfully");
         setLoading(false);
       }).onError((error, stackTrace) {
         setLoading(false);
@@ -53,10 +52,12 @@ class LoginController with ChangeNotifier {
           SessionController().isBarber = true;
           Navigator.pushNamedAndRemoveUntil(
               context, RouteName.barberdashboardView, (route) => false);
+          Utils.toastMessage("login successfully");
         } else {
           SessionController().isBarber = false;
           Navigator.pushNamedAndRemoveUntil(
               context, RouteName.customerdashboardView, (route) => false);
+          Utils.toastMessage("login successfully");
         }
       } else {
         if (kDebugMode) {
