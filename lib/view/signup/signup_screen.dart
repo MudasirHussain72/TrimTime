@@ -337,8 +337,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   emailController.text.trim().toString(),
                                   passwordController.text.trim().toString(),
                                   phoneController.text.trim().toString(),
-                                  // barBerLatitude!,
-                                  // barBerLongitude!,
                                   '',
                                   '',
                                   barberAddress,

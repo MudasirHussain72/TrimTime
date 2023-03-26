@@ -1,5 +1,7 @@
+import 'package:barbar_booking_app/res/components/choose_location_button.dart';
 import 'package:barbar_booking_app/res/components/my_appbar.dart';
-import 'package:barbar_booking_app/res/components/shop_display_card.dart';
+import 'package:barbar_booking_app/view/customer_dashboard/home/widgets/nearby_data.dart';
+import 'package:barbar_booking_app/view_model/services/session_manager.dart';
 import 'package:flutter/material.dart';
 
 class CustomerHomeScreen extends StatefulWidget {
@@ -28,20 +30,18 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
         padding: const EdgeInsets.only(right: 10, left: 10),
         child: Column(
           children: [
-            // const TopAppbar(),
+            //top bar
             MyAppBar(onSearchTap: () {}, title: 'Find services near you'),
-            // SizedBox(height: size.height * 0.01),
-
-            Expanded(
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 10,
-                itemBuilder: (context, index) => Padding(
-                  padding: const EdgeInsets.only(bottom: 20, top: 20, left: 20),
-                  child: ShopDisplayCard(),
-                ),
-              ),
+            // show location area
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: ChooseLocationButton(
+                  title: SessionController().addressLine.toString(),
+                  onPress: () {},
+                  iconColor: Colors.transparent),
             ),
+            // show nearby data
+            const NearbyData()
           ],
         ),
       )),

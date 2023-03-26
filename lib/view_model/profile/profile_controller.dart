@@ -40,7 +40,8 @@ class ProfileController with ChangeNotifier {
   }
 
   Future getCameraImage(BuildContext context) async {
-    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+    final pickedFile =
+        await picker.pickImage(source: ImageSource.camera, imageQuality: 20);
     if (pickedFile != null) {
       _image = XFile(pickedFile.path);
       uploadImage();

@@ -5,11 +5,13 @@ class ChooseLocationButton extends StatelessWidget {
   final String title;
   final VoidCallback onPress;
   final bool loading;
+  final Color iconColor;
   const ChooseLocationButton({
     super.key,
     required this.title,
     required this.onPress,
     this.loading = false,
+    this.iconColor = AppColors.primaryIconColor,
   });
 
   @override
@@ -32,7 +34,10 @@ class ChooseLocationButton extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          const Icon(Icons.add_location)
+          Icon(
+            Icons.add_location,
+            color: iconColor,
+          )
         ]),
       ),
     );

@@ -55,6 +55,9 @@ class LoginController with ChangeNotifier {
           Utils.toastMessage("login successfully");
         } else {
           SessionController().isBarber = false;
+          SessionController().latitude = 33.6844;
+          SessionController().longitude = 73.0479;
+          SessionController().addressLine = 'Islamabad Capital of Pakistan';
           Navigator.pushNamedAndRemoveUntil(
               context, RouteName.customerdashboardView, (route) => false);
           Utils.toastMessage("login successfully");
