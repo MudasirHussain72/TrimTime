@@ -3,6 +3,7 @@ import 'package:barbar_booking_app/res/color.dart';
 import 'package:barbar_booking_app/res/fonts.dart';
 import 'package:barbar_booking_app/utils/routes/route_name.dart';
 import 'package:barbar_booking_app/utils/routes/routes.dart';
+import 'package:barbar_booking_app/view_model/customer_dashboard/customer_home/customer_home_controller.dart';
 import 'package:barbar_booking_app/view_model/signup/signup_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -33,9 +34,8 @@ class MyApp extends StatelessWidget {
     ]);
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => SignupController(),
-        )
+        ChangeNotifierProvider(create: (context) => SignupController()),
+        ChangeNotifierProvider(create: (context) => CustomerHomeController()),
       ],
       child: MaterialApp(
         title: 'King Barber',

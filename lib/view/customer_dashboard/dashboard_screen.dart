@@ -42,28 +42,26 @@ class _CustomerDashboardScreenState extends State<CustomerDashboardScreen> {
   List<PersistentBottomNavBarItem> _navBarItems() {
     return [
       PersistentBottomNavBarItem(
-          icon: const Icon(Icons.home, color: AppColors.secondaryColor),
+          icon: Icon(Icons.home, color: AppColors.navIconColor),
           inactiveIcon: Icon(Icons.home, color: Colors.grey.shade100),
           activeColorPrimary: AppColors.primaryIconColor),
       PersistentBottomNavBarItem(
-          icon: const Icon(CupertinoIcons.search,
-              color: AppColors.secondaryColor),
+          icon: Icon(CupertinoIcons.search, color: AppColors.navIconColor),
           activeColorPrimary: AppColors.primaryIconColor,
           inactiveIcon:
               Icon(CupertinoIcons.search, color: Colors.grey.shade100)),
       PersistentBottomNavBarItem(
-          icon: const Icon(Icons.add, color: AppColors.secondaryColor),
-          activeColorPrimary: AppColors.secondaryColor,
+          icon: Icon(Icons.add, color: AppColors.navIconColor),
+          activeColorPrimary: AppColors.navIconColor,
           inactiveIcon: Icon(Icons.add, color: Colors.grey.shade100)),
       PersistentBottomNavBarItem(
-          icon: const Icon(CupertinoIcons.chat_bubble_2,
-              color: AppColors.secondaryColor),
+          icon:
+              Icon(CupertinoIcons.chat_bubble_2, color: AppColors.navIconColor),
           inactiveIcon:
               Icon(CupertinoIcons.chat_bubble_2, color: Colors.grey.shade100),
           activeColorPrimary: AppColors.primaryIconColor),
       PersistentBottomNavBarItem(
-          icon:
-              const Icon(Icons.person_outline, color: AppColors.secondaryColor),
+          icon: Icon(Icons.person_outline, color: AppColors.navIconColor),
           inactiveIcon: Icon(Icons.person_outline, color: Colors.grey.shade100),
           activeColorPrimary: AppColors.primaryIconColor),
     ];
@@ -77,7 +75,7 @@ class _CustomerDashboardScreenState extends State<CustomerDashboardScreen> {
       screens: _buildScreen(),
       items: _navBarItems(),
       confineInSafeArea: true,
-      backgroundColor: AppColors.otpHintColor, // Default is Colors.white.
+      backgroundColor: Colors.grey.shade400, // Default is Colors.white.
       handleAndroidBackButtonPress: true, // Default is true.
       resizeToAvoidBottomInset:
           true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
@@ -85,7 +83,8 @@ class _CustomerDashboardScreenState extends State<CustomerDashboardScreen> {
       hideNavigationBarWhenKeyboardShows:
           true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
       decoration: NavBarDecoration(
-        borderRadius: BorderRadius.circular(0),
+        borderRadius: BorderRadius.circular(20),
+        adjustScreenBottomPaddingOnCurve: false,
         colorBehindNavBar: Colors.white,
       ),
       popAllScreensOnTapOfSelectedTab: true,
@@ -100,6 +99,7 @@ class _CustomerDashboardScreenState extends State<CustomerDashboardScreen> {
         duration: Duration(milliseconds: 200),
       ),
       navBarStyle: NavBarStyle.style12,
+      margin: EdgeInsets.all(20),
     );
   }
 }

@@ -51,9 +51,6 @@ class SignupController with ChangeNotifier {
         );
         SessionController().userId = value.user!.uid.toString();
         SessionController().isBarber = isBarber;
-        SessionController().latitude = 33.6844;
-        SessionController().longitude = 73.0479;
-        SessionController().addressLine = 'Islamabad Capital of Pakistan';
         db.collection('users').doc(user.uid).set(user.toJson());
         setLoading(false);
         if (isBarber == true) {

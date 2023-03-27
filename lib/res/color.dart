@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   static const Color primaryColor = Color(0xff58ee4a);
+
   static const Color secondaryColor = Color.fromRGBO(19, 103, 33, 1);
 
   static const Color primaryTextTextColor = Color(0xff242424);
   static const Color secondaryTextColor = Color(0xff8F92A1);
 
   static const Color primaryIconColor = Color(0xff242424);
+  static Color navIconColor = Colors.grey.shade800;
 
   static const Color primaryButtonColor = Color(0xff242424);
 

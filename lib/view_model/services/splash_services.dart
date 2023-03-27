@@ -19,9 +19,6 @@ class SplashServices {
     if (user != null || SessionController().isBarber == false) {
       SessionController().userId = user!.uid.toString();
       SessionController().isBarber = false;
-      SessionController().latitude = 33.6844;
-      SessionController().longitude = 73.0479;
-      SessionController().addressLine = 'Islamabad Capital of Pakistan';
       Timer(
           const Duration(seconds: 2),
           () => Navigator.pushNamedAndRemoveUntil(
