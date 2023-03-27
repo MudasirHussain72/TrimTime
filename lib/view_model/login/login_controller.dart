@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:barbar_booking_app/utils/routes/route_name.dart';
 import 'package:barbar_booking_app/utils/utils.dart';
 import 'package:barbar_booking_app/view_model/services/session_manager.dart';
@@ -6,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController with ChangeNotifier {
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -46,15 +49,16 @@ class LoginController with ChangeNotifier {
         .collection('users')
         .doc(user!.uid)
         .get()
-        .then((DocumentSnapshot documentSnapshot) {
+        .then((DocumentSnapshot documentSnapshot) async {
+      final prefs = await SharedPreferences.getInstance();
       if (documentSnapshot.exists) {
         if (documentSnapshot.get('isBarber') == true) {
-          SessionController().isBarber = true;
+          await prefs.setBool('isBarber', true);
           Navigator.pushNamedAndRemoveUntil(
               context, RouteName.barberdashboardView, (route) => false);
           Utils.toastMessage("login successfully");
         } else {
-          SessionController().isBarber = false;
+          await prefs.setBool('isBarber', false);
           Navigator.pushNamedAndRemoveUntil(
               context, RouteName.customerdashboardView, (route) => false);
           Utils.toastMessage("login successfully");

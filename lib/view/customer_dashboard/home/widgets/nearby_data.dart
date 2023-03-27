@@ -1,8 +1,6 @@
 import 'dart:developer';
-
 import 'package:barbar_booking_app/res/components/shop_display_card.dart';
 import 'package:barbar_booking_app/view_model/customer_dashboard/customer_home/customer_home_controller.dart';
-import 'package:barbar_booking_app/view_model/services/session_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geoflutterfire2/geoflutterfire2.dart';
@@ -16,8 +14,6 @@ class NearbyData extends StatefulWidget {
 }
 
 class _NearbyDataState extends State<NearbyData> {
-  // double latitude = 33.6844;
-  // double longitude = 73.0479;
   final geo = GeoFlutterFire();
   final firestore = FirebaseFirestore.instance.collection('users');
   @override

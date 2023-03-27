@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class MyAppBar extends StatelessWidget {
   final String title;
-  VoidCallback onSearchTap;
+  VoidCallback oniconTap;
+  IconData icon;
 
   MyAppBar({
     Key? key,
-    required this.onSearchTap,
+    required this.oniconTap,
     required this.title,
+    required this.icon,
   }) : super(key: key);
 
   @override
@@ -32,7 +34,7 @@ class MyAppBar extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: onSearchTap,
+            onTap: oniconTap,
             child: Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
@@ -41,7 +43,7 @@ class MyAppBar extends StatelessWidget {
                 color: Colors.grey[200],
               ),
               child: Icon(
-                Icons.location_on_rounded,
+                icon,
                 size: 36,
                 color: Colors.grey[800],
               ),

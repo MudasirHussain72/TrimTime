@@ -1,9 +1,10 @@
+import 'dart:developer';
+
 import 'package:barbar_booking_app/res/components/choose_location_button.dart';
 import 'package:barbar_booking_app/res/components/my_appbar.dart';
 import 'package:barbar_booking_app/view/customer_dashboard/home/widgets/choose_location_bottomsheet.dart';
 import 'package:barbar_booking_app/view/customer_dashboard/home/widgets/nearby_data.dart';
 import 'package:barbar_booking_app/view_model/customer_dashboard/customer_home/customer_home_controller.dart';
-import 'package:barbar_booking_app/view_model/services/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,8 +27,10 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    log('build');
+    // ignore: unused_local_variable
     final size = MediaQuery.of(context).size * 1;
-    var provider = Provider.of<CustomerHomeController>(context, listen: true);
+    // var provider = Provider.of<CustomerHomeController>(context, listen: true);
     return Scaffold(
       body: SafeArea(
           child: Padding(
@@ -35,21 +38,28 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
         child: Column(
           children: [
             //top bar
-            MyAppBar(onSearchTap: () {}, title: 'Find services near you'),
+            MyAppBar(
+                oniconTap: () {},
+                title: 'Find services near you',
+                icon: Icons.location_on_rounded),
             // show location area
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: ChooseLocationButton(
-                  title: provider.addressLine.toString(),
-                  onPress: () {
-                    // for setting up currnt location
-                    showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        builder: (context) => ChooseLocationBottomSheet());
-                    // setState(() {});
-                  },
-                  iconColor: Colors.transparent),
+              child: Consumer<CustomerHomeController>(
+                  builder: (context, provider, child) {
+                return ChooseLocationButton(
+                    title: provider.addressLine.toString(),
+                    onPress: () {
+                      // for setting up currnt location
+                      showModalBottomSheet(
+                          context: context,
+                          useRootNavigator: true,
+                          isScrollControlled: true,
+                          builder: (context) =>
+                              const ChooseLocationBottomSheet());
+                    },
+                    iconColor: Colors.transparent);
+              }),
             ),
             // show nearby data
             const NearbyData()

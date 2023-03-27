@@ -24,7 +24,7 @@ class Routes {
       // case RouteName.signupView:
       //   return MaterialPageRoute(builder: (_) =>   SignUpScreen(chooseRole: ,));
       case RouteName.barberdashboardView:
-        return MaterialPageRoute(builder: (_) => const BarberDashboardScreen());
+        return MaterialPageRoute(builder: (_) =>   const BarberDashboardScreen());
       case RouteName.customerdashboardView:
         return MaterialPageRoute(
             builder: (_) => const CustomerDashboardScreen());

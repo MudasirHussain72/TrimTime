@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ShopDisplayCard extends StatelessWidget {
+  // ignore: prefer_typing_uninitialized_variables
   final snap;
   const ShopDisplayCard({
     super.key,

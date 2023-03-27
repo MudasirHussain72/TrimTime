@@ -55,6 +55,7 @@ dependencies:
   geocoding: ^2.1.0
   flutter_geocoder: ^0.2.2-nullsafety
   geoflutterfire2: ^2.3.15
+  shared_preferences: ^2.0.20
 
 dev_dependencies:
   flutter_test:

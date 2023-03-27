@@ -54,6 +54,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   ];
   loadCurrentLocation() {
     getUserCurrentLocation().then((value) async {
+      // ignore: await_only_futures
       final coordinates = await Coordinates(value.latitude, value.longitude);
       var address =
           await Geocoder.local.findAddressesFromCoordinates(coordinates);
@@ -93,6 +94,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     barberLongitude = tempLongitude;
     setState(() {});
     await Utils.toastMessage('Location Added');
+    // ignore: use_build_context_synchronously
     Navigator.pop(context);
   }
 

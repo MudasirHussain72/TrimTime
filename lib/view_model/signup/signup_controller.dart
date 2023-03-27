@@ -7,11 +7,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:geoflutterfire2/geoflutterfire2.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignupController with ChangeNotifier {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore db = FirebaseFirestore.instance;
-
   // status lodaing
   bool _loading = false;
   bool get loading => _loading;
@@ -33,6 +33,8 @@ class SignupController with ChangeNotifier {
     bool isBarber,
   ) async {
     setLoading(true);
+    final prefs = await SharedPreferences.getInstance();
+
     try {
       // ignore: unused_local_variable
       auth
@@ -50,7 +52,7 @@ class SignupController with ChangeNotifier {
           address: barberAddress,
         );
         SessionController().userId = value.user!.uid.toString();
-        SessionController().isBarber = isBarber;
+        await prefs.setBool('isBarber', isBarber);
         db.collection('users').doc(user.uid).set(user.toJson());
         setLoading(false);
         if (isBarber == true) {
@@ -62,9 +64,11 @@ class SignupController with ChangeNotifier {
               .collection('users')
               .doc(user.uid)
               .update({'name': 'random name', 'position': myLocation.data});
+          // ignore: use_build_context_synchronously
           Navigator.pushNamedAndRemoveUntil(
               context, RouteName.barberdashboardView, (route) => false);
         } else {
+          // ignore: use_build_context_synchronously
           Navigator.pushNamedAndRemoveUntil(
               context, RouteName.customerdashboardView, (route) => false);
         }

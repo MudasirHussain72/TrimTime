@@ -1,8 +1,8 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
 import 'package:barbar_booking_app/res/color.dart';
+import 'package:barbar_booking_app/view/barber_dashboard/home/barber_home_screen.dart';
 import 'package:barbar_booking_app/view/barber_dashboard/profile/profile_screen.dart';
-import 'package:barbar_booking_app/view_model/services/session_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -19,10 +19,7 @@ class _BarberDashboardScreenState extends State<BarberDashboardScreen> {
       PersistentTabController(initialIndex: 0);
   List<Widget> _buildScreen() {
     return [
-      Scaffold(
-          body: Center(
-        child: Text('Barber home${SessionController().isBarber}'),
-      )),
+      const BarberHomeScreen(),
       const Scaffold(
         body: Center(
           child: Text('Barber search'),
@@ -44,28 +41,26 @@ class _BarberDashboardScreenState extends State<BarberDashboardScreen> {
   List<PersistentBottomNavBarItem> _navBarItems() {
     return [
       PersistentBottomNavBarItem(
-          icon: const Icon(Icons.home, color: AppColors.secondaryColor),
+          icon: Icon(Icons.home, color: AppColors.navIconColor),
           inactiveIcon: Icon(Icons.home, color: Colors.grey.shade100),
           activeColorPrimary: AppColors.primaryIconColor),
       PersistentBottomNavBarItem(
-          icon: const Icon(CupertinoIcons.search,
-              color: AppColors.secondaryColor),
+          icon: Icon(CupertinoIcons.search, color: AppColors.navIconColor),
           activeColorPrimary: AppColors.primaryIconColor,
           inactiveIcon:
               Icon(CupertinoIcons.search, color: Colors.grey.shade100)),
       PersistentBottomNavBarItem(
-          icon: const Icon(Icons.add, color: AppColors.secondaryColor),
-          activeColorPrimary: AppColors.secondaryColor,
+          icon: Icon(Icons.add, color: AppColors.navIconColor),
+          activeColorPrimary: AppColors.navIconColor,
           inactiveIcon: Icon(Icons.add, color: Colors.grey.shade100)),
       PersistentBottomNavBarItem(
-          icon: const Icon(CupertinoIcons.chat_bubble_2,
-              color: AppColors.secondaryColor),
+          icon:
+              Icon(CupertinoIcons.chat_bubble_2, color: AppColors.navIconColor),
           inactiveIcon:
               Icon(CupertinoIcons.chat_bubble_2, color: Colors.grey.shade100),
           activeColorPrimary: AppColors.primaryIconColor),
       PersistentBottomNavBarItem(
-          icon:
-              const Icon(Icons.person_outline, color: AppColors.secondaryColor),
+          icon: Icon(Icons.person_outline, color: AppColors.navIconColor),
           inactiveIcon: Icon(Icons.person_outline, color: Colors.grey.shade100),
           activeColorPrimary: AppColors.primaryIconColor),
     ];
@@ -79,7 +74,7 @@ class _BarberDashboardScreenState extends State<BarberDashboardScreen> {
       screens: _buildScreen(),
       items: _navBarItems(),
       confineInSafeArea: true,
-      backgroundColor: AppColors.otpHintColor, // Default is Colors.white.
+      backgroundColor: Colors.grey.shade400, // Default is Colors.white.
       handleAndroidBackButtonPress: true, // Default is true.
       resizeToAvoidBottomInset:
           true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
@@ -87,7 +82,8 @@ class _BarberDashboardScreenState extends State<BarberDashboardScreen> {
       hideNavigationBarWhenKeyboardShows:
           true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
       decoration: NavBarDecoration(
-        borderRadius: BorderRadius.circular(0),
+        borderRadius: BorderRadius.circular(20),
+        adjustScreenBottomPaddingOnCurve: false,
         colorBehindNavBar: Colors.white,
       ),
       popAllScreensOnTapOfSelectedTab: true,
@@ -101,7 +97,8 @@ class _BarberDashboardScreenState extends State<BarberDashboardScreen> {
         curve: Curves.ease,
         duration: Duration(milliseconds: 200),
       ),
-      navBarStyle: NavBarStyle.style15,
+      navBarStyle: NavBarStyle.style12,
+      margin: const EdgeInsets.all(20),
     );
   }
 }

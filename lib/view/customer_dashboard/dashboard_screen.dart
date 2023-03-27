@@ -99,7 +99,7 @@ class _CustomerDashboardScreenState extends State<CustomerDashboardScreen> {
         duration: Duration(milliseconds: 200),
       ),
       navBarStyle: NavBarStyle.style12,
-      margin: EdgeInsets.all(20),
+      margin: const EdgeInsets.all(20),
     );
   }
 }
