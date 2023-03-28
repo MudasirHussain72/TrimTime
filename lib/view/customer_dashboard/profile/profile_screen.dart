@@ -187,6 +187,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         await preferences.clear();
                                         SessionController().userId = '';
                                         SharedPreferences.getInstance();
+                                        // ignore: use_build_context_synchronously
                                         PersistentNavBarNavigator
                                             .pushNewScreenWithRouteSettings(
                                           context,

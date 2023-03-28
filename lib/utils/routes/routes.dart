@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:barbar_booking_app/utils/routes/route_name.dart';
+import 'package:barbar_booking_app/view/barber_dashboard/add_service/add_service.dart';
 import 'package:barbar_booking_app/view/barber_dashboard/dashboard_screen.dart';
 import 'package:barbar_booking_app/view/customer_dashboard/dashboard_screen.dart';
 import 'package:barbar_booking_app/view/forgot_password/forgot_password.dart';
@@ -24,7 +25,9 @@ class Routes {
       // case RouteName.signupView:
       //   return MaterialPageRoute(builder: (_) =>   SignUpScreen(chooseRole: ,));
       case RouteName.barberdashboardView:
-        return MaterialPageRoute(builder: (_) =>   const BarberDashboardScreen());
+        return MaterialPageRoute(builder: (_) => const BarberDashboardScreen());
+      case RouteName.addservicesView:
+        return MaterialPageRoute(builder: (_) => const AddServicesScreen());
       case RouteName.customerdashboardView:
         return MaterialPageRoute(
             builder: (_) => const CustomerDashboardScreen());

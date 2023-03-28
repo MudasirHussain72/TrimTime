@@ -6,7 +6,9 @@ class RouteName {
   static const String loginView = 'login_view';
   static const String forgotPasswordView = 'forgotPassword_view';
   // static const String signupView = 'signup_view';
-// dashboard route
+// barber dashboard route
   static const String barberdashboardView = 'barberdashboard_view';
+  static const String addservicesView = 'addservices_view';
+// customer dashboard route
   static const String customerdashboardView = 'customerdashboard_view';
 }
