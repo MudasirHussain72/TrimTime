@@ -3,8 +3,10 @@ import 'package:barbar_booking_app/res/color.dart';
 import 'package:barbar_booking_app/res/components/input_text_field.dart';
 import 'package:barbar_booking_app/res/components/round_button.dart';
 import 'package:barbar_booking_app/utils/utils.dart';
+import 'package:barbar_booking_app/view_model/barber_dashboard/add_service/add_service_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class AddServicesScreen extends StatefulWidget {
   const AddServicesScreen({super.key});
@@ -123,16 +125,24 @@ class _AddServicesScreenState extends State<AddServicesScreen> {
                     keyBoardType: TextInputType.number,
                     hint: 'Price',
                     obscureText: false),
-                RoundButton(
-                    title: 'Confirm',
-                    onPress: () {
-                      if (_formkey.currentState!.validate()) {
-                        // provider.login(
-                        //     context,
-                        //     emailController.text.trim().toString(),
-                        //     passwordController.text.trim().toString());
-                      }
-                    })
+                Consumer<AddServiceController>(
+                  builder: (context, provider, child) => RoundButton(
+                      loading: provider.loading,
+                      title: 'Confirm',
+                      onPress: () {
+                        if (imageFile != null &&
+                            _formkey.currentState!.validate()) {
+                          AddServiceController().postAdd(
+                              context,
+                              serviceNameController.text.trim().toString(),
+                              priceController.text.trim().toString(),
+                              imageFile);
+                        } else {
+                          Utils.toastMessage(
+                              'Please pick an Image or Data incorrect');
+                        }
+                      }),
+                ),
               ]),
         ),
       ),
