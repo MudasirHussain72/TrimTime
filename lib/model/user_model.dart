@@ -8,6 +8,7 @@ class UserModel {
   String? userName;
   String? email;
   String? longitude;
+  String? deviceToken;
   bool? isBarber;
 
   UserModel(
@@ -20,6 +21,7 @@ class UserModel {
       this.userName,
       this.email,
       this.longitude,
+      this.deviceToken,
       this.isBarber});
 
   UserModel.fromJson(Map<String, dynamic> json) {
@@ -32,6 +34,7 @@ class UserModel {
     userName = json['userName'] ?? '';
     email = json['email'] ?? '';
     longitude = json['longitude'] ?? '';
+    deviceToken = json['deviceToken'] ?? '';
     isBarber = json['isBarber'] ?? false;
   }
 
@@ -46,6 +49,7 @@ class UserModel {
     data['userName'] = userName;
     data['email'] = email;
     data['longitude'] = longitude;
+    data['deviceToken'] = deviceToken;
     data['isBarber'] = isBarber;
     return data;
   }

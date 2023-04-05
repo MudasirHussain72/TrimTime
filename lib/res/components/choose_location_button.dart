@@ -35,7 +35,7 @@ class ChooseLocationButton extends StatelessWidget {
             ),
           ),
           Icon(
-            Icons.add_location,
+            Icons.location_on_rounded,
             color: iconColor,
           )
         ]),

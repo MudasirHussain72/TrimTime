@@ -15,7 +15,7 @@ class NearbyData extends StatefulWidget {
 
 class _NearbyDataState extends State<NearbyData> {
   final geo = GeoFlutterFire();
-  final firestore = FirebaseFirestore.instance.collection('users');
+  final firestore = FirebaseFirestore.instance.collection('shops');
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<CustomerHomeController>(context, listen: true);
@@ -25,7 +25,7 @@ class _NearbyDataState extends State<NearbyData> {
     );
     log(provider.latitude.toString());
     log(provider.longitude.toString());
-    firestore.where("isBarber", isEqualTo: true);
+    // firestore.where("isBarber", isEqualTo: true);
     double radius = 5000;
     String field = 'position';
     Stream<List<DocumentSnapshot>> streamNearBy = geo

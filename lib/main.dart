@@ -3,10 +3,10 @@ import 'package:barbar_booking_app/res/color.dart';
 import 'package:barbar_booking_app/res/fonts.dart';
 import 'package:barbar_booking_app/utils/routes/route_name.dart';
 import 'package:barbar_booking_app/utils/routes/routes.dart';
-import 'package:barbar_booking_app/view_model/barber_dashboard/add_service/add_service_controller.dart';
 import 'package:barbar_booking_app/view_model/customer_dashboard/customer_home/customer_home_controller.dart';
 import 'package:barbar_booking_app/view_model/signup/signup_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +20,16 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(const MyApp());
+}
+
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  print(message.notification!.title.toString());
 }
 
 class MyApp extends StatelessWidget {
@@ -37,7 +46,6 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => SignupController()),
         ChangeNotifierProvider(create: (context) => CustomerHomeController()),
-        ChangeNotifierProvider(create: (context) => AddServiceController()),
       ],
       child: MaterialApp(
         title: 'King Barber',

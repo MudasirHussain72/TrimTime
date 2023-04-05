@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:barbar_booking_app/api/apis.dart';
 import 'package:barbar_booking_app/utils/routes/route_name.dart';
 import 'package:barbar_booking_app/utils/utils.dart';
 import 'package:barbar_booking_app/view_model/services/session_manager.dart';
@@ -54,8 +55,15 @@ class LoginController with ChangeNotifier {
       if (documentSnapshot.exists) {
         if (documentSnapshot.get('isBarber') == true) {
           await prefs.setBool('isBarber', true);
-          Navigator.pushNamedAndRemoveUntil(
-              context, RouteName.barberdashboardView, (route) => false);
+          // Navigator.pushNamedAndRemoveUntil(
+          //     context, RouteName.barberdashboardView, (route) => false);
+          if (await APIs.shopExists()) {
+            Navigator.pushNamedAndRemoveUntil(
+                context, RouteName.barberdashboardView, (route) => false);
+          } else {
+            Navigator.pushNamedAndRemoveUntil(
+                context, RouteName.createShopView, (route) => false);
+          }
           Utils.toastMessage("login successfully");
         } else {
           await prefs.setBool('isBarber', false);

@@ -6,7 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:uuid/uuid.dart';
 
 class AddServiceController with ChangeNotifier {
-  final firestore = FirebaseFirestore.instance.collection('users');
+  final firestore = FirebaseFirestore.instance.collection('shops');
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
   bool _loading = false;
@@ -16,12 +16,13 @@ class AddServiceController with ChangeNotifier {
     notifyListeners();
   }
 
-// post Add
-  postAdd(BuildContext context, String serviceName, String price,
+// post service func
+  postService(BuildContext context, String serviceName, String price,
       dynamic image) async {
     setLoading(true);
     var id = Uuid().v4();
     try {
+      setLoading(true);
       // firestore.doc(SessionController().userId).collection('services').add({});
       firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
           .ref('/profileImage/${SessionController().userId}/services/$id');

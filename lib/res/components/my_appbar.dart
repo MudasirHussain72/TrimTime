@@ -27,7 +27,7 @@ class MyAppBar extends StatelessWidget {
               title,
               style: TextStyle(
                 // fontSize: 42,
-                fontSize: size.width * .120,
+                fontSize: size.width * .09,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'BebasNeue-Regular',
               ),

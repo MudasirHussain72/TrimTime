@@ -6,7 +6,6 @@ import 'package:barbar_booking_app/view_model/services/session_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:geoflutterfire2/geoflutterfire2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignupController with ChangeNotifier {
@@ -26,10 +25,6 @@ class SignupController with ChangeNotifier {
     String username,
     String email,
     String password,
-    String phoneNum,
-    String latitude,
-    String longitude,
-    String barberAddress,
     bool isBarber,
   ) async {
     setLoading(true);
@@ -45,34 +40,22 @@ class SignupController with ChangeNotifier {
           email: value.user!.email,
           profileImage: '',
           isBarber: isBarber,
-          latitude: latitude,
-          longitude: longitude,
-          phone: phoneNum,
           uid: value.user!.uid,
-          address: barberAddress,
+          deviceToken: '',
         );
         SessionController().userId = value.user!.uid.toString();
         await prefs.setBool('isBarber', isBarber);
         db.collection('users').doc(user.uid).set(user.toJson());
         setLoading(false);
         if (isBarber == true) {
-          final geo = GeoFlutterFire();
-          GeoFirePoint myLocation = geo.point(
-              latitude: double.parse(latitude),
-              longitude: double.parse(longitude));
-          await db
-              .collection('users')
-              .doc(user.uid)
-              .update({'name': 'random name', 'position': myLocation.data});
           // ignore: use_build_context_synchronously
           Navigator.pushNamedAndRemoveUntil(
-              context, RouteName.barberdashboardView, (route) => false);
+              context, RouteName.createShopView, (route) => false);
         } else {
           // ignore: use_build_context_synchronously
           Navigator.pushNamedAndRemoveUntil(
               context, RouteName.customerdashboardView, (route) => false);
         }
-
         await Utils.toastMessage("Account created successfully");
       }).onError((error, stackTrace) {
         setLoading(false);

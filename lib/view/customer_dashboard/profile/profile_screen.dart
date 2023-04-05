@@ -41,26 +41,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 10),
-                    // child: StreamBuilder(
-                    //   stream: FirebaseFirestore.instance
-                    //       .collection('users')
-                    //       .snapshots(),
-                    //   builder: (context, snapshot) {
-                    //     final list = [];
-                    //     if (snapshot.hasData) {
-                    //       final data = snapshot.data?.docs;
-                    //       for (var i in data!) {
-                    //         log('${jsonEncode(i.data())}');
-                    //       }
-                    //     }
-                    //     return ListView.builder(
-                    //       itemCount: list.length,
-                    //       itemBuilder: (context, index) {
-                    //         return Text('data');
-                    //       },
-                    //     );
-                    //   },
-                    // ),
                     child: StreamBuilder(
                       stream: firestore
                           .doc(SessionController().userId.toString())

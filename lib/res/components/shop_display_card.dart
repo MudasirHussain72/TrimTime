@@ -19,7 +19,7 @@ class ShopDisplayCard extends StatelessWidget {
       onTap: () => PersistentNavBarNavigator.pushNewScreen(
         context,
         screen: DisplayServicesScreen(
-            shopUid: snap['uid'], shopName: snap['userName']),
+            shopUid: snap['uid'], shopName: snap['shopName']),
         withNavBar: false,
         pageTransitionAnimation: PageTransitionAnimation.fade,
       ),
@@ -31,7 +31,7 @@ class ShopDisplayCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           child: Stack(children: [
             CachedNetworkImage(
-              imageUrl: snap['profileImage'],
+              imageUrl: snap['shopImage'],
               imageBuilder: (context, imageProvider) => Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
@@ -57,7 +57,7 @@ class ShopDisplayCard extends StatelessWidget {
               alignment: Alignment.bottomLeft,
               child: Padding(
                   padding: const EdgeInsets.only(bottom: 12, left: 12),
-                  child: Text(snap['userName'],
+                  child: Text(snap['shopName'],
                       style: TextStyle(
                           color: AppColors.whiteColor,
                           fontSize: size.width * .055,
