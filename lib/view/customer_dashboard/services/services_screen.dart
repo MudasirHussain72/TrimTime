@@ -3,6 +3,7 @@
 import 'package:barbar_booking_app/res/components/my_appbar.dart';
 import 'package:barbar_booking_app/res/components/round_button.dart';
 import 'package:barbar_booking_app/res/components/shop_service_display_card.dart';
+import 'package:barbar_booking_app/view/customer_dashboard/book_appointment/book_appointment_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -62,7 +63,13 @@ class _DisplayServicesScreenState extends State<DisplayServicesScreen> {
                 }),
             RoundButton(
               title: 'Book Appointment',
-              onPress: () {},
+              onPress: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const BookAppointmentScreen()),
+                );
+              },
             ),
           ]),
         ),

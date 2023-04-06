@@ -33,7 +33,7 @@ class _BarberHomeScreenState extends State<BarberHomeScreen> {
     // notificationServices.isTokenRefresh();
     notificationServices.getDeviceToken().then((value) {
       APIs().addDeviceToken(
-          'shops', SessionController().userId.toString(), value);
+          'deviceTokens', SessionController().userId.toString(), value);
       print('device token');
       log(value);
     });

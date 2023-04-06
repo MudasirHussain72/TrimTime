@@ -37,7 +37,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
     //notificationServices.isTokenRefresh();
     notificationServices.getDeviceToken().then((value) {
       APIs().addDeviceToken(
-          'users', SessionController().userId.toString(), value);
+          'deviceTokens', SessionController().userId.toString(), value);
       print('device token');
       log(value);
     });

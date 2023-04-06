@@ -22,6 +22,6 @@ class APIs {
     FirebaseFirestore.instance
         .collection(collectionName)
         .doc(docId)
-        .update({'deviceToken': deviceToken});
+        .set({'deviceToken': deviceToken});
   }
 }
