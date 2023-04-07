@@ -3,7 +3,7 @@
 import 'package:barbar_booking_app/res/components/my_appbar.dart';
 import 'package:barbar_booking_app/res/components/round_button.dart';
 import 'package:barbar_booking_app/res/components/shop_service_display_card.dart';
-import 'package:barbar_booking_app/view/customer_dashboard/book_appointment/book_appointment_screen.dart';
+import 'package:barbar_booking_app/view/customer_dashboard/services/widgets/choose_service_bottomsheet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +20,7 @@ class DisplayServicesScreen extends StatefulWidget {
 class _DisplayServicesScreenState extends State<DisplayServicesScreen> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size * 1;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.shopName),
@@ -64,11 +65,17 @@ class _DisplayServicesScreenState extends State<DisplayServicesScreen> {
             RoundButton(
               title: 'Book Appointment',
               onPress: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const BookAppointmentScreen()),
-                );
+                showModalBottomSheet(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(20),
+                          topLeft: Radius.circular(20)),
+                    ),
+                    context: context,
+                    builder: (context) => ChooseBookServiceBottomSheet(
+                          shopUid: widget.shopUid,
+                          shopName: widget.shopName,
+                        ));
               },
             ),
           ]),
