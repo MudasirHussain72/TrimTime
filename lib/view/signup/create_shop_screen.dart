@@ -178,7 +178,7 @@ class _CreateShopScreenState extends State<CreateShopScreen> {
                                           value.phoneNumber.toString();
                                     });
                                   },
-                                  countries: ['PK'],
+                                  countries: const ['PK'],
                                   formatInput: false,
                                   inputBorder: InputBorder.none,
                                   selectorConfig: const SelectorConfig(

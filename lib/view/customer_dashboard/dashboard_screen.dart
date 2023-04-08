@@ -3,6 +3,7 @@
 import 'package:barbar_booking_app/res/color.dart';
 import 'package:barbar_booking_app/view/barber_dashboard/profile/profile_screen.dart';
 import 'package:barbar_booking_app/view/customer_dashboard/home/customer_home_screen.dart';
+import 'package:barbar_booking_app/view/customer_dashboard/my_bookings/my_bookings_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -21,20 +22,17 @@ class _CustomerDashboardScreenState extends State<CustomerDashboardScreen> {
   List<Widget> _buildScreen() {
     return [
       const CustomerHomeScreen(),
-      const Scaffold(
-        body: Center(
-          child: Text('Customer search'),
-        ),
-      ),
-      const Scaffold(
-        body: Center(
-          child: Text('Customer add post screen'),
-        ),
-      ),
-      const Scaffold(
-          body: Center(
-        child: Text('Customer user list'),
-      )),
+      // const Scaffold(
+      //   body: Center(
+      //     child: Text('Customer search'),
+      //   ),
+      // ),
+      // const Scaffold(
+      //   body: Center(
+      //     child: Text('Customer add post screen'),
+      //   ),
+      // ),
+      const MyBookingsScreen(),
       const ProfileScreen(),
     ];
   }
@@ -45,20 +43,19 @@ class _CustomerDashboardScreenState extends State<CustomerDashboardScreen> {
           icon: Icon(Icons.home, color: AppColors.navIconColor),
           inactiveIcon: Icon(Icons.home, color: Colors.grey.shade100),
           activeColorPrimary: AppColors.primaryIconColor),
+      // PersistentBottomNavBarItem(
+      //     icon: Icon(CupertinoIcons.search, color: AppColors.navIconColor),
+      //     activeColorPrimary: AppColors.primaryIconColor,
+      //     inactiveIcon:
+      //         Icon(CupertinoIcons.search, color: Colors.grey.shade100)),
+      // PersistentBottomNavBarItem(
+      //     icon: Icon(Icons.add, color: AppColors.navIconColor),
+      //     activeColorPrimary: AppColors.navIconColor,
+      //     inactiveIcon: Icon(Icons.add, color: Colors.grey.shade100)),
       PersistentBottomNavBarItem(
-          icon: Icon(CupertinoIcons.search, color: AppColors.navIconColor),
-          activeColorPrimary: AppColors.primaryIconColor,
+          icon: Icon(CupertinoIcons.calendar, color: AppColors.navIconColor),
           inactiveIcon:
-              Icon(CupertinoIcons.search, color: Colors.grey.shade100)),
-      PersistentBottomNavBarItem(
-          icon: Icon(Icons.add, color: AppColors.navIconColor),
-          activeColorPrimary: AppColors.navIconColor,
-          inactiveIcon: Icon(Icons.add, color: Colors.grey.shade100)),
-      PersistentBottomNavBarItem(
-          icon:
-              Icon(CupertinoIcons.chat_bubble_2, color: AppColors.navIconColor),
-          inactiveIcon:
-              Icon(CupertinoIcons.chat_bubble_2, color: Colors.grey.shade100),
+              Icon(CupertinoIcons.calendar, color: Colors.grey.shade100),
           activeColorPrimary: AppColors.primaryIconColor),
       PersistentBottomNavBarItem(
           icon: Icon(Icons.person_outline, color: AppColors.navIconColor),

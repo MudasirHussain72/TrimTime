@@ -28,173 +28,161 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size * 1;
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Profile Screen'),
-        ),
         body: ChangeNotifierProvider(
-          create: (context) => ProfileController(),
-          child: Consumer<ProfileController>(
-            builder: (context, provider, child) {
-              return SafeArea(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
-                    child: StreamBuilder(
-                      stream: firestore
-                          .doc(SessionController().userId.toString())
-                          .snapshots(),
-                      builder: (context, AsyncSnapshot snapshot) {
-                        if (!snapshot.hasData) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        } else if (snapshot.hasData) {
-                          var document = snapshot.data;
-                          return Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+      create: (context) => ProfileController(),
+      child: Consumer<ProfileController>(
+        builder: (context, provider, child) {
+          return SafeArea(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: StreamBuilder(
+                  stream: firestore
+                      .doc(SessionController().userId.toString())
+                      .snapshots(),
+                  builder: (context, AsyncSnapshot snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasData) {
+                      var document = snapshot.data;
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(height: size.height * .02),
+                          Stack(
+                            alignment: Alignment.bottomCenter,
                             children: [
-                              SizedBox(height: size.height * .02),
-                              Stack(
-                                alignment: Alignment.bottomCenter,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: size.height * .01),
-                                    child: Center(
-                                      child: Container(
-                                        height: size.width / 4,
-                                        width: size.width / 4,
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            border: Border.all(
-                                                color: AppColors.primaryColor,
-                                                width: 2)),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(100),
-                                          child: provider.image == null
-                                              ? document['profileImage']
-                                                          .toString ==
-                                                      ""
-                                                  ? const Icon(Icons.person)
-                                                  : Image(
-                                                      fit: BoxFit.cover,
-                                                      image: NetworkImage(
-                                                          document![
-                                                                  'profileImage']
-                                                              .toString()),
-                                                      loadingBuilder: (context,
-                                                          child,
-                                                          loadingProgress) {
-                                                        if (loadingProgress ==
-                                                            null) return child;
-                                                        return const Center(
-                                                            child:
-                                                                CircularProgressIndicator());
-                                                      },
-                                                      errorBuilder: (context,
-                                                          object, stack) {
-                                                        return const Icon(
-                                                          Icons.error_outline,
-                                                          color: AppColors
-                                                              .alertColor,
-                                                        );
-                                                      })
-                                              : Stack(
-                                                  children: [
-                                                    Image.file(File(provider
-                                                            .image!.path)
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: size.height * .01),
+                                child: Center(
+                                  child: Container(
+                                    height: size.width / 4,
+                                    width: size.width / 4,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                            color: AppColors.primaryColor,
+                                            width: 2)),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(100),
+                                      child: provider.image == null
+                                          ? document['profileImage'].toString ==
+                                                  ""
+                                              ? const Icon(Icons.person)
+                                              : Image(
+                                                  fit: BoxFit.cover,
+                                                  image: NetworkImage(
+                                                      document!['profileImage']
+                                                          .toString()),
+                                                  loadingBuilder: (context,
+                                                      child, loadingProgress) {
+                                                    if (loadingProgress == null)
+                                                      return child;
+                                                    return const Center(
+                                                        child:
+                                                            CircularProgressIndicator());
+                                                  },
+                                                  errorBuilder:
+                                                      (context, object, stack) {
+                                                    return const Icon(
+                                                      Icons.error_outline,
+                                                      color:
+                                                          AppColors.alertColor,
+                                                    );
+                                                  })
+                                          : Stack(
+                                              children: [
+                                                Image.file(
+                                                    File(provider.image!.path)
                                                         .absolute),
-                                                    const Center(
-                                                      child:
-                                                          CircularProgressIndicator(),
-                                                    )
-                                                  ],
-                                                ),
-                                        ),
-                                      ),
+                                                const Center(
+                                                  child:
+                                                      CircularProgressIndicator(),
+                                                )
+                                              ],
+                                            ),
                                     ),
                                   ),
-                                  InkWell(
-                                    onTap: () {
-                                      log('clicked');
-                                      provider.pickImage(context);
-                                    },
-                                    child: CircleAvatar(
-                                      radius: size.width * .04,
-                                      backgroundColor:
-                                          AppColors.primaryIconColor,
-                                      child: const Icon(Icons.add,
-                                          color: AppColors.whiteColor),
-                                    ),
-                                  )
-                                ],
+                                ),
                               ),
                               InkWell(
                                 onTap: () {
-                                  ProfileController().updateUserInfoDialogAlert(
-                                      context,
-                                      document['userName'],
-                                      'userName');
+                                  log('clicked');
+                                  provider.pickImage(context);
                                 },
-                                child: ReusableRow(
-                                  title: 'Name',
-                                  value: document['userName'] == ''
-                                      ? 'xxx-xxx-xxx'
-                                      : document['userName'],
+                                child: CircleAvatar(
+                                  radius: size.width * .04,
+                                  backgroundColor: AppColors.primaryIconColor,
+                                  child: const Icon(Icons.add,
+                                      color: AppColors.whiteColor),
                                 ),
-                              ),
-                              ReusableRow(
-                                title: 'Email',
-                                value: document['email'] == ''
-                                    ? 'xxx-xxx-xxx'
-                                    : document['email'],
-                              ),
-                              ReusableRow(
-                                title: 'Phone',
-                                value: document['phone'] ?? 'xxx-xxx-xxx',
-                              ),
-                              InkWell(
-                                  onTap: () {
-                                    FirebaseAuth auth = FirebaseAuth.instance;
-                                    auth.signOut().then(
-                                      (value) {
-                                        SessionController().userId = '';
-                                        PersistentNavBarNavigator
-                                            .pushNewScreenWithRouteSettings(
-                                          context,
-                                          settings: const RouteSettings(
-                                              name: RouteName.loginView),
-                                          screen: const LoginScreen(),
-                                          withNavBar: false,
-                                          pageTransitionAnimation:
-                                              PageTransitionAnimation.cupertino,
-                                        );
-                                      },
+                              )
+                            ],
+                          ),
+                          InkWell(
+                            onTap: () {
+                              ProfileController().updateUserInfoDialogAlert(
+                                  context, document['userName'], 'userName');
+                            },
+                            child: ReusableRow(
+                              title: 'Name',
+                              value: document['userName'] == ''
+                                  ? 'xxx-xxx-xxx'
+                                  : document['userName'],
+                            ),
+                          ),
+                          ReusableRow(
+                            title: 'Email',
+                            value: document['email'] == ''
+                                ? 'xxx-xxx-xxx'
+                                : document['email'],
+                          ),
+                          ReusableRow(
+                            title: 'Phone',
+                            value: document['phone'] ?? 'xxx-xxx-xxx',
+                          ),
+                          InkWell(
+                              onTap: () {
+                                FirebaseAuth auth = FirebaseAuth.instance;
+                                auth.signOut().then(
+                                  (value) {
+                                    SessionController().userId = '';
+                                    PersistentNavBarNavigator
+                                        .pushNewScreenWithRouteSettings(
+                                      context,
+                                      settings: const RouteSettings(
+                                          name: RouteName.loginView),
+                                      screen: const LoginScreen(),
+                                      withNavBar: false,
+                                      pageTransitionAnimation:
+                                          PageTransitionAnimation.cupertino,
                                     );
                                   },
-                                  child: const RectangleButton(
-                                      title: 'Sign Out',
-                                      iconData: Icons.logout))
-                            ],
-                          );
-                        } else {
-                          return Center(
-                            child: Text(
-                              'Something went wrong',
-                              style: Theme.of(context).textTheme.subtitle1,
-                            ),
-                          );
-                        }
-                      },
-                    ),
-                  ),
+                                );
+                              },
+                              child: const RectangleButton(
+                                  title: 'Sign Out', iconData: Icons.logout))
+                        ],
+                      );
+                    } else {
+                      return Center(
+                        child: Text(
+                          'Something went wrong',
+                          style: Theme.of(context).textTheme.subtitle1,
+                        ),
+                      );
+                    }
+                  },
                 ),
-              );
-            },
-          ),
-        ));
+              ),
+            ),
+          );
+        },
+      ),
+    ));
   }
 }
 

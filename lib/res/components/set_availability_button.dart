@@ -27,7 +27,7 @@ class SetAvailability extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(8))),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [Text(fromTime), Icon(Icons.access_time_rounded)],
+            children: [Text(fromTime), const Icon(Icons.access_time_rounded)],
           ),
         ),
       ),
@@ -45,7 +45,7 @@ class SetAvailability extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(8))),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [Text(toTime), Icon(Icons.access_time_rounded)],
+            children: [Text(toTime), const Icon(Icons.access_time_rounded)],
           ),
         ),
       )

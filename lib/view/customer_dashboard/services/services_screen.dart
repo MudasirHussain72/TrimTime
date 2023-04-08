@@ -4,23 +4,41 @@ import 'package:barbar_booking_app/res/components/my_appbar.dart';
 import 'package:barbar_booking_app/res/components/round_button.dart';
 import 'package:barbar_booking_app/res/components/shop_service_display_card.dart';
 import 'package:barbar_booking_app/view/customer_dashboard/services/widgets/choose_service_bottomsheet.dart';
+import 'package:barbar_booking_app/view_model/services/session_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class DisplayServicesScreen extends StatefulWidget {
   final shopName;
   final shopUid;
+  final shopAddress;
   const DisplayServicesScreen(
-      {super.key, required this.shopUid, required this.shopName});
+      {super.key,
+      required this.shopUid,
+      required this.shopName,
+      required this.shopAddress});
 
   @override
   State<DisplayServicesScreen> createState() => _DisplayServicesScreenState();
 }
 
 class _DisplayServicesScreenState extends State<DisplayServicesScreen> {
+  String? userName;
+  @override
+  void initState() {
+    super.initState();
+    Future getUserName() async {
+      var collection = FirebaseFirestore.instance.collection('users');
+      var docSnapshot = await collection.doc(SessionController().userId).get();
+      Map<String, dynamic> data = docSnapshot.data()!;
+      setState(() {
+        userName = data['userName'];
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size * 1;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.shopName),
@@ -73,6 +91,8 @@ class _DisplayServicesScreenState extends State<DisplayServicesScreen> {
                     ),
                     context: context,
                     builder: (context) => ChooseBookServiceBottomSheet(
+                          userName: userName,
+                          shopAddress: widget.shopAddress,
                           shopUid: widget.shopUid,
                           shopName: widget.shopName,
                         ));

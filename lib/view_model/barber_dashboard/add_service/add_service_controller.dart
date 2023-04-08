@@ -20,7 +20,7 @@ class AddServiceController with ChangeNotifier {
   postService(BuildContext context, String serviceName, String price,
       dynamic image) async {
     setLoading(true);
-    var id = Uuid().v4();
+    var id = const Uuid().v4();
     try {
       setLoading(true);
       // firestore.doc(SessionController().userId).collection('services').add({});

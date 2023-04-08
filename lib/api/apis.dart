@@ -24,4 +24,9 @@ class APIs {
         .doc(docId)
         .set({'deviceToken': deviceToken});
   }
+
+  // for checking if Shop doc exists in booking collection or not?
+  static Future<bool> shopInBookingsExists(shopUid) async {
+    return (await firestore.collection('bookings').doc(shopUid).get()).exists;
+  }
 }

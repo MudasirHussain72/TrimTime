@@ -19,7 +19,9 @@ class ShopDisplayCard extends StatelessWidget {
       onTap: () => PersistentNavBarNavigator.pushNewScreen(
         context,
         screen: DisplayServicesScreen(
-            shopUid: snap['uid'], shopName: snap['shopName']),
+            shopAddress: snap['address'],
+            shopUid: snap['uid'],
+            shopName: snap['shopName']),
         withNavBar: false,
         pageTransitionAnimation: PageTransitionAnimation.fade,
       ),

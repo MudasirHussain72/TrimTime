@@ -6,9 +6,14 @@ import 'package:flutter/material.dart';
 class ChooseBookServiceBottomSheet extends StatelessWidget {
   final shopUid;
   final shopName;
+  final shopAddress;
+  final userName;
   const ChooseBookServiceBottomSheet(
-      {super.key, required this.shopUid, required this.shopName});
-
+      {super.key,
+      required this.shopUid,
+      required this.userName,
+      required this.shopName,
+      required this.shopAddress});
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size * 1;
@@ -51,6 +56,9 @@ class ChooseBookServiceBottomSheet extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => BookAppointmentScreen(
+                                      userName: userName,
+                                      shopAddress: shopAddress,
+                                      shopName: shopName,
                                       serviceName: doc['serviceName'],
                                       servicePrice: doc['price'],
                                       serviceUid: doc['id'],
