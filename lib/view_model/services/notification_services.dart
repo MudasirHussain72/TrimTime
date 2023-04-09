@@ -1,8 +1,9 @@
 import 'dart:math';
-
 import 'package:app_settings/app_settings.dart';
+import 'package:barbar_booking_app/view/barber_dashboard/all_bookings/my_all_shop_bookings.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationServices {
@@ -43,14 +44,18 @@ class NotificationServices {
     );
     await _flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
-      onDidReceiveNotificationResponse: (payload) {},
+      onDidReceiveNotificationResponse: (payload) {
+        handleMessage(context, message);
+      },
     );
   }
 
-  void firebaseInit() {
+  void firebaseInit(BuildContext context) {
     FirebaseMessaging.onMessage.listen((message) {
       print(message.notification!.title.toString());
       print(message.notification!.body.toString());
+
+      initLocalNotifications(context, message);
       showNotication(message);
     });
   }
@@ -101,5 +106,32 @@ class NotificationServices {
       event.toString();
       print('refresh');
     });
+  }
+
+  //handle tap on notification when app is in background or terminated
+  Future<void> setupInteractMessage(BuildContext context) async {
+    // when app is terminated
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+
+    if (initialMessage != null) {
+      handleMessage(context, initialMessage);
+    }
+
+    //when app ins background
+    FirebaseMessaging.onMessageOpenedApp.listen((event) {
+      handleMessage(context, event);
+    });
+  }
+
+  void handleMessage(BuildContext context, RemoteMessage message) {
+    if (message.data['type'] == 'msg') {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MyAllShopBookings(
+                  // id: message.data['id'],
+                  )));
+    }
   }
 }

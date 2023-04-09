@@ -41,16 +41,15 @@ class _MyAllShopBookingsState extends State<MyAllShopBookings> {
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
                       DocumentSnapshot doc = snapshot.data!.docs[index];
-                      // return Text('data');
                       return Container(
                         margin: const EdgeInsets.only(bottom: 20),
-                        height: size.height * .22,
+                        height: size.height * .25,
                         width: double.infinity,
                         padding: const EdgeInsetsDirectional.all(20),
                         decoration: BoxDecoration(
                           color: AppColors.primaryColor,
                           borderRadius: BorderRadius.circular(20),
-                          gradient: LinearGradient(
+                          gradient: const LinearGradient(
                               begin: Alignment.topRight,
                               end: Alignment.bottomLeft,
                               colors: [
@@ -68,7 +67,7 @@ class _MyAllShopBookingsState extends State<MyAllShopBookings> {
                                       fontSize: size.width * .055,
                                       fontFamily: 'BebasNeue-Regular')),
                               Text('Service Price: ${doc['servicePrice']}'),
-                              // Text('Service Price: ${doc['userName']}'),
+                              Text('Customer Name: ${doc['userName']}'),
                               Text(
                                   'Service Duration: ${doc['serviceDuration']}'),
                               Text('Booking Start: ${doc['bookingStart']}'),

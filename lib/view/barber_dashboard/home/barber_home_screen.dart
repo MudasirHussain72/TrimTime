@@ -29,7 +29,8 @@ class _BarberHomeScreenState extends State<BarberHomeScreen> {
   void initState() {
     super.initState();
     notificationServices.requestNotificationPermision();
-    notificationServices.firebaseInit();
+    notificationServices.firebaseInit(context);
+    notificationServices.setupInteractMessage(context);
     // notificationServices.isTokenRefresh();
     notificationServices.getDeviceToken().then((value) {
       APIs().addDeviceToken(

@@ -1,8 +1,12 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:barbar_booking_app/api/apis.dart';
 import 'package:barbar_booking_app/view_model/services/session_manager.dart';
 import 'package:booking_calendar/booking_calendar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class BookAppointmentScreen extends StatefulWidget {
   final serviceName;
@@ -30,20 +34,26 @@ class BookAppointmentScreen extends StatefulWidget {
 class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
   String? shopUid;
   String? shopDeviceToken;
-  void getShopDeviceToken() async {
-    var collection = FirebaseFirestore.instance.collection('deviceTokens');
-    var docSnapshot = await collection.doc(shopUid).get();
-    Map<String, dynamic> data = docSnapshot.data()!;
-    shopDeviceToken = data['deviceToken'];
-  }
 
   final now = DateTime.now();
   late BookingService mockBookingService;
+  Future<void> _getshopDeviceToken() async {
+    FirebaseFirestore.instance
+        .collection('deviceTokens')
+        .doc(shopUid)
+        .get()
+        .then((value) {
+      setState(() {
+        shopDeviceToken = value.data()!['deviceToken'].toString();
+      });
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     shopUid = widget.shopUid;
+    _getshopDeviceToken();
     mockBookingService = BookingService(
       serviceName: widget.serviceName,
       userName: widget.userName,
@@ -103,8 +113,39 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
               .doc(widget.shopUid)
               .collection('bookings')
               .add(newBooking.toJson())
-              .then((value) {
+              .then((value) async {
+            log(shopDeviceToken.toString());
+
             // notification functionality will be written here
+            var data = {
+              'to': shopDeviceToken,
+              'priority': 'high',
+              // 'android': {
+              'notification': {
+                'title': 'Hello Dear',
+                'body':
+                    'Booking from ${widget.userName} for ${widget.serviceName}',
+                'android_channel_id': "Messages",
+                'count': 10,
+                'notification_count': 12,
+                'badge': 12,
+                "click_action": 'asif',
+                'color': '#eeeeee',
+              },
+              // },
+              'data': {
+                'type': 'msg',
+                // 'id': '12456',
+              }
+            };
+            await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+                body: jsonEncode(data),
+                headers: {
+                  'Content-Type': 'application/json; charset=UTF-8',
+                  'Authorization':
+                      'key=AAAA-DnuRMI:APA91bEqnn3baxUKSOAGZL_aPhNRzZO_NIH4ITJl5Hkp6eUux7LHZX5IDuHgRorG7R3q5YBZ_2qUEsXnq5X8OBo9h9iRg1RHfyMaD0hm1oI4TfrIyl3zHKpYRwrvM-TShXcl-nemfZNU'
+                });
+
             print("Booking Added");
           }).catchError((error) => print("Failed to add booking: $error")));
     } else {
@@ -117,8 +158,37 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
               .doc(widget.shopUid)
               .collection('bookings')
               .add(newBooking.toJson())
-              .then((value) {
+              .then((value) async {
+            log(shopDeviceToken.toString());
             // notification functionality will be written here
+            var data = {
+              'to': shopDeviceToken,
+              'priority': 'high',
+              // 'android': {
+              'notification': {
+                'title': 'Hello Dear',
+                'body':
+                    'Booking from ${widget.userName} for ${widget.serviceName}',
+                'android_channel_id': "Messages",
+                'count': 10,
+                'notification_count': 12,
+                'badge': 12,
+                "click_action": 'asif',
+                'color': '#eeeeee',
+              },
+              // },
+              'data': {
+                'type': 'msg',
+                // 'id': '12456',
+              }
+            };
+            await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+                body: jsonEncode(data),
+                headers: {
+                  'Content-Type': 'application/json; charset=UTF-8',
+                  'Authorization':
+                      'key=AAAA-DnuRMI:APA91bEqnn3baxUKSOAGZL_aPhNRzZO_NIH4ITJl5Hkp6eUux7LHZX5IDuHgRorG7R3q5YBZ_2qUEsXnq5X8OBo9h9iRg1RHfyMaD0hm1oI4TfrIyl3zHKpYRwrvM-TShXcl-nemfZNU'
+                });
 
             print("Booking Added");
           }).catchError((error) => print("Failed to add booking: $error")));

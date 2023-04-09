@@ -24,17 +24,22 @@ class DisplayServicesScreen extends StatefulWidget {
 
 class _DisplayServicesScreenState extends State<DisplayServicesScreen> {
   String? userName;
+  Future<void> _getUserName() async {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(SessionController().userId)
+        .get()
+        .then((value) {
+      setState(() {
+        userName = value.data()!['userName'].toString();
+      });
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    Future getUserName() async {
-      var collection = FirebaseFirestore.instance.collection('users');
-      var docSnapshot = await collection.doc(SessionController().userId).get();
-      Map<String, dynamic> data = docSnapshot.data()!;
-      setState(() {
-        userName = data['userName'];
-      });
-    }
+    _getUserName();
   }
 
   @override
