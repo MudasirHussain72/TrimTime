@@ -1,5 +1,6 @@
 import 'package:barbar_booking_app/res/color.dart';
 import 'package:barbar_booking_app/res/components/my_appbar.dart';
+import 'package:barbar_booking_app/view/customer_dashboard/my_bookings/widgets/shop_booking_detail_card.dart';
 import 'package:barbar_booking_app/view_model/services/session_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -48,39 +49,7 @@ class _MyAllBookingsInAShopState extends State<MyAllBookingsInAShop> {
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
                       DocumentSnapshot doc = snapshot.data!.docs[index];
-                      // return Text('data');
-                      return Container(
-                        margin: const EdgeInsets.only(bottom: 20),
-                        height: size.height * .22,
-                        width: double.infinity,
-                        padding: const EdgeInsetsDirectional.all(20),
-                        decoration: BoxDecoration(
-                          color: AppColors.primaryColor,
-                          borderRadius: BorderRadius.circular(20),
-                          gradient: const LinearGradient(
-                              begin: Alignment.topRight,
-                              end: Alignment.bottomLeft,
-                              colors: [
-                                Colors.transparent,
-                                AppColors.primaryColor
-                              ]),
-                        ),
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Service Name: ${doc['serviceName']}',
-                                  style: TextStyle(
-                                      color: AppColors.whiteColor,
-                                      fontSize: size.width * .055,
-                                      fontFamily: 'BebasNeue-Regular')),
-                              Text('Service Price: ${doc['servicePrice']}'),
-                              Text(
-                                  'Service Duration: ${doc['serviceDuration']}'),
-                              Text('Booking Start: ${doc['bookingStart']}'),
-                              Text('Booking End: ${doc['bookingEnd']}'),
-                            ]),
-                      );
+                      return BookingDetailCard(snap: doc,shopUid: widget.shopUid,);
                     },
                   ));
                 }

@@ -7,6 +7,7 @@ import 'package:barbar_booking_app/view_model/customer_dashboard/customer_home/c
 import 'package:barbar_booking_app/view_model/signup/signup_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +30,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  print(message.notification!.title.toString());
+  if (kDebugMode) {
+    print(message.notification!.title.toString());
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -48,7 +51,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => CustomerHomeController()),
       ],
       child: MaterialApp(
-        title: 'King Barber',
+        title: 'The Parlour App',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: AppColors.primaryMaterialColor,

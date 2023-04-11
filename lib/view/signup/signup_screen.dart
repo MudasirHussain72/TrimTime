@@ -49,7 +49,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   children: [
                     Center(
                         child: Image(
-                      image: const AssetImage('assets/images/logo.jpg'),
+                      image: const AssetImage('assets/images/logo.png'),
                       width: size.width / 2,
                     )),
                     SizedBox(height: size.height * .004),

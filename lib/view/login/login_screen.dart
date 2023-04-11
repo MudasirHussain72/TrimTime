@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: size.height * .002),
                   Center(
                       child: Image(
-                    image: const AssetImage('assets/images/logo.jpg'),
+                    image: const AssetImage('assets/images/logo.png'),
                     width: size.width / 2,
                   )),
                   SizedBox(height: size.height * .04),
@@ -96,7 +96,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: InkWell(
                       onTap: () => Navigator.pushNamed(
                           context, RouteName.forgotPasswordView),
-
                       child: Text(
                         'Forgot Password?',
                         style: Theme.of(context).textTheme.headline2!.copyWith(

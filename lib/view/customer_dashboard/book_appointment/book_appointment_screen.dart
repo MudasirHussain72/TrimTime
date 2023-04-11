@@ -2,11 +2,13 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:barbar_booking_app/api/apis.dart';
+import 'package:barbar_booking_app/utils/utils.dart';
 import 'package:barbar_booking_app/view_model/services/session_manager.dart';
 import 'package:booking_calendar/booking_calendar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:uuid/uuid.dart';
 
 class BookAppointmentScreen extends StatefulWidget {
   final serviceName;
@@ -34,6 +36,8 @@ class BookAppointmentScreen extends StatefulWidget {
 class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
   String? shopUid;
   String? shopDeviceToken;
+  var bookingDocId;
+  var uuid = Uuid();
 
   final now = DateTime.now();
   late BookingService mockBookingService;
@@ -52,9 +56,14 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
   @override
   void initState() {
     super.initState();
-    shopUid = widget.shopUid;
+    setState(() {
+      bookingDocId = uuid.v4();
+      shopUid = widget.shopUid;
+    });
     _getshopDeviceToken();
     mockBookingService = BookingService(
+      bookingDocumentId: bookingDocId,
+      serviceStatus: false,
       serviceName: widget.serviceName,
       userName: widget.userName,
       serviceDuration: 30,
@@ -112,10 +121,11 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
       }).then((value) => bookings
               .doc(widget.shopUid)
               .collection('bookings')
-              .add(newBooking.toJson())
+              .doc(bookingDocId!)
+              .set(newBooking.toJson())
               .then((value) async {
             log(shopDeviceToken.toString());
-
+            log(bookingDocId.toString());
             // notification functionality will be written here
             var data = {
               'to': shopDeviceToken,
@@ -145,7 +155,8 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
                   'Authorization':
                       'key=AAAA-DnuRMI:APA91bEqnn3baxUKSOAGZL_aPhNRzZO_NIH4ITJl5Hkp6eUux7LHZX5IDuHgRorG7R3q5YBZ_2qUEsXnq5X8OBo9h9iRg1RHfyMaD0hm1oI4TfrIyl3zHKpYRwrvM-TShXcl-nemfZNU'
                 });
-
+            Navigator.pop(context);
+            Utils.flushBarDoneMessage("Booking Added", BuildContext, context);
             print("Booking Added");
           }).catchError((error) => print("Failed to add booking: $error")));
     } else {
@@ -157,9 +168,12 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
       }).then((value) => bookings
               .doc(widget.shopUid)
               .collection('bookings')
-              .add(newBooking.toJson())
+              .doc(bookingDocId!)
+              .set(newBooking.toJson())
               .then((value) async {
             log(shopDeviceToken.toString());
+            log(bookingDocId.toString());
+
             // notification functionality will be written here
             var data = {
               'to': shopDeviceToken,
@@ -189,7 +203,8 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
                   'Authorization':
                       'key=AAAA-DnuRMI:APA91bEqnn3baxUKSOAGZL_aPhNRzZO_NIH4ITJl5Hkp6eUux7LHZX5IDuHgRorG7R3q5YBZ_2qUEsXnq5X8OBo9h9iRg1RHfyMaD0hm1oI4TfrIyl3zHKpYRwrvM-TShXcl-nemfZNU'
                 });
-
+            Navigator.pop(context);
+            Utils.flushBarDoneMessage("Booking Added", BuildContext, context);
             print("Booking Added");
           }).catchError((error) => print("Failed to add booking: $error")));
     }
