@@ -38,24 +38,20 @@ class BookingDetailCard extends StatelessWidget {
                     color: Colors.amber,
                   ),
                   onRatingUpdate: (rating) {
+                    FirebaseFirestore.instance
+                        .collection('shops')
+                        .doc(shopUid)
+                        .collection('rating')
+                        .doc(snap['bookingDocId'])
+                        .set({'rating': rating}).then((value) {
+                      Navigator.pop(context);
+                      Utils.flushBarDoneMessage(
+                          'Rating done', BuildContext, context);
+                    });
                     print(rating);
                   },
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                      onPressed: () {
-                        // rate this service function
-                        FirebaseFirestore.instance
-                            .collection('shops')
-                            .doc(shopUid)
-                            .update({});
-                      },
-                      child: Text('Done'))
-                ],
-              )
             ]),
           );
         } else {
