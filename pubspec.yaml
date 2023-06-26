@@ -50,7 +50,7 @@ dependencies:
   intl: ^0.17.0
   intl_phone_number_input: ^0.7.2
   google_maps_flutter: ^2.2.5
-  http: ^0.13.5
+  http: ^0.13.6
   geolocator: ^9.0.2
   geocoding: ^2.1.0
   flutter_geocoder: ^0.2.2-nullsafety
@@ -63,6 +63,7 @@ dependencies:
   booking_calendar: ^1.1.9
   flutter_rating_bar: ^4.0.1
   another_flushbar: ^1.12.29
+  flutter_stripe: ^9.2.2
 
 dev_dependencies:
   flutter_test:
