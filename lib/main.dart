@@ -11,13 +11,17 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+    Stripe.publishableKey =
+      'pk_test_51NN7cLEPQNvlYGTyIUZEtsHZQsNrs31D764RMsZt3QCByldmcbyObrqSCAAhmlGaEyWA3V1f4ebqnFSEUHNcyOGA00GETGkV6I';
+  await Stripe.instance.applySettings();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       systemNavigationBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.light));
-  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

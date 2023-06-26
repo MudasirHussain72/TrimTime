@@ -63,7 +63,7 @@ dependencies:
   booking_calendar: ^1.1.9
   flutter_rating_bar: ^4.0.1
   another_flushbar: ^1.12.29
-  flutter_stripe: ^9.2.2
+  flutter_stripe: ^7.0.0
 
 dev_dependencies:
   flutter_test:
