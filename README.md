@@ -5,9 +5,10 @@ A Barber Booking App Flutter project.
 * Nearby Shops Data
 * Firebase Cloud Push Notifications
 * Google Map Current Location
+* Realtime Booking Changes
+* Online Payment (Stripe Payment)
 * Form Validation
 * Firebase Authentication
-* Realtime Booking Changes
 * Firebase Cloud Firestore Database
 
 # Output
