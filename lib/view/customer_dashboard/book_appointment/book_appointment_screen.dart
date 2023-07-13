@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:barbar_booking_app/api/apis.dart';
 import 'package:barbar_booking_app/utils/utils.dart';
 import 'package:barbar_booking_app/view_model/services/session_manager.dart';
@@ -157,7 +156,7 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
                   //googlePay: true,
                   //testEnv: true,
                   customFlow: true,
-                  style: ThemeMode.dark,
+                  style: ThemeMode.system,
                   // merchantCountryCode: 'US',
                   merchantDisplayName: 'Kashif'))
           .then((value) {});
