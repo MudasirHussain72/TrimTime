@@ -4,6 +4,7 @@ import 'package:barbar_booking_app/res/components/my_appbar.dart';
 import 'package:barbar_booking_app/res/components/my_services_display_card.dart';
 import 'package:barbar_booking_app/res/components/round_button.dart';
 import 'package:barbar_booking_app/utils/routes/route_name.dart';
+import 'package:barbar_booking_app/utils/utils.dart';
 import 'package:barbar_booking_app/view/barber_dashboard/add_service/add_service.dart';
 import 'package:barbar_booking_app/view_model/services/notification_services.dart';
 import 'package:barbar_booking_app/view_model/services/session_manager.dart';
@@ -90,7 +91,37 @@ class _BarberHomeScreenState extends State<BarberHomeScreen> {
                     return Padding(
                       padding:
                           const EdgeInsets.only(bottom: 40, top: 20, left: 20),
-                      child: ServicesDisplayCard(snap: doc),
+                      child: InkWell(
+                          onLongPress: () => showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                    content: Text(
+                                        'Are you sure you want to delete this service'),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: Text('Cancel')),
+                                      TextButton(
+                                          onPressed: () {
+                                            FirebaseFirestore.instance
+                                                .collection('shops')
+                                                .doc(SessionController().userId)
+                                                .collection('services')
+                                                .doc(doc['id'])
+                                                .delete()
+                                                .then((value) {
+                                              Navigator.pop(context);
+                                              Utils.flushBarDoneMessage(
+                                                  'Successfully deleted',
+                                                  BuildContext,
+                                                  context);
+                                            });
+                                          },
+                                          child: Text('Yes'))
+                                    ]),
+                              ),
+                          child: ServicesDisplayCard(snap: doc)),
                     );
                   },
                 ));

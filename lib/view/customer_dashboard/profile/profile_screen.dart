@@ -131,19 +131,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: ReusableRow(
                               title: 'Name',
                               value: document['userName'] == ''
-                                  ? 'xxx-xxx-xxx'
+                                  ? '*** *** ***'
                                   : document['userName'],
                             ),
                           ),
                           ReusableRow(
                             title: 'Email',
                             value: document['email'] == ''
-                                ? 'xxx-xxx-xxx'
+                                ? '*** *** ***'
                                 : document['email'],
                           ),
                           ReusableRow(
                             title: 'Phone',
-                            value: document['phone'] ?? 'xxx-xxx-xxx',
+                            value: document['phone'] ?? '*** *** ***',
                           ),
                           InkWell(
                               onTap: () {
