@@ -13,7 +13,7 @@ A Barber Booking App Flutter project.
 
 # Output
 
-![Untitled design (3)](https://user-images.githubusercontent.com/81384345/231690509-04e8e7ea-3f1e-45ad-804c-b3609866f5b2.png)
+![TrimTime - The modern Barber Booking App built with Flutter📱](https://github.com/MudasirHussain72/TrimTime/assets/81384345/f51a989b-fc4d-4af7-bd1c-8356f1c98754)
 
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
